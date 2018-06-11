@@ -29,6 +29,10 @@ export default {
     googleScholarId: "String",
     interests: ["String"],
 
+    //subscription opt-ins
+    acceptedKfOptIn: "boolean",
+    acceptedNihOptIn: "boolean",
+
     sets: [
       {
         name: "String",
