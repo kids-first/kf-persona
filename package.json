@@ -1,0 +1,27 @@
+{
+  "name": "kf-persona",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.49",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/register": "^7.0.0-beta.49",
+    "@overture-stack/persona": "0.0.1",
+    "body-parser": "^1.18.3",
+    "chalk-animation": "^1.6.0",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "ego-token-middleware": "0.0.8",
+    "express": "^4.16.3",
+    "http": "0.0.0"
+  }
+}
