@@ -36,16 +36,21 @@ export const newMailchimpSubscription = async ({ user }) => {
   ).then(res => res.json());
 };
 
-export const retrieveMailchimpSecrets = () =>
-  getSecretValue(vaultSecretPath)
-    .then(({ kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }) => {
-      config = {
-        ...config,
-        kfMailchimpApiKey,
-        kfMailchimpUserName,
-        kfMailchimpListId
-      };
-    })
+export const retrieveMailchimpSecrets = async () =>
+  (await vaultClient())
+    .read(vaultSecretPath)
+    .then(
+      ({
+        data: { kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }
+      }) => {
+        config = {
+          ...config,
+          kfMailchimpApiKey,
+          kfMailchimpUserName,
+          kfMailchimpListId
+        };
+      }
+    )
     .catch(e => {
       console.log(
         "failed to retrieve mailchimpCredential, falling back to environment config"

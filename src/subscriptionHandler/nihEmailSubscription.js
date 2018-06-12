@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { vaultClient as getSecretValue } from "@overture-stack/persona";
+import { vaultClient } from "@overture-stack/persona";
 
 const vaultSecretPath = process.env.VAULT_APP_SECRET_PATH || "secret/app";
 const nihSubscriptionMailTargetAddress =
@@ -15,9 +15,8 @@ let config = {
   }
 };
 
-export const sendNihSubscriptionEmail = async ({ user }) => {
-  console.log("user: ", user);
-  return new Promise((resolve, reject) => {
+export const sendNihSubscriptionEmail = async ({ user }) =>
+  new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport(config);
     const { email, firstName, lastName } = user;
     const mailOptions = {
@@ -37,23 +36,25 @@ export const sendNihSubscriptionEmail = async ({ user }) => {
       resolve();
     });
   });
-};
 
-export const retrieveEmailSecrets = () =>
-  getSecretValue(vaultSecretPath)
-    .then(({ nihSubscriptionMailUsername, nihSubscriptionMailPass }) => {
-      console.log("nihSubscriptionMailUsername: ", nihSubscriptionMailUsername);
-      config = {
-        ...config,
-        auth: {
-          ...config.auth,
-          user: nihSubscriptionMailUsername,
-          pass: nihSubscriptionMailPass
-        }
-      };
-    })
+export const retrieveEmailSecrets = async () =>
+  (await vaultClient())
+    .read(vaultSecretPath)
+    .then(
+      ({ data: { nihSubscriptionMailUsername, nihSubscriptionMailPass } }) => {
+        config = {
+          ...config,
+          auth: {
+            ...config.auth,
+            user: nihSubscriptionMailUsername,
+            pass: nihSubscriptionMailPass
+          }
+        };
+      }
+    )
     .catch(e => {
       console.log(
         "failed to retrieve nih email credentials, falling back to environment config"
       );
+      console.log(e);
     });
