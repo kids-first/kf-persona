@@ -1,17 +1,22 @@
 import nodemailer from "nodemailer";
-import { vaultClient } from "@overture-stack/persona";
+import { vaultClient, config as personaConfig } from "@overture-stack/persona";
+import {
+  vaultAppSecretPath,
+  nihSubscriptionMailTargetAddress,
+  nihSubscriptionMailFromAddress,
+  nihSubscriptionMailUserName,
+  nihSubscriptionMailPass
+} from "../env";
 
-const vaultSecretPath = process.env.VAULT_APP_SECRET_PATH || "secret/app";
-const nihSubscriptionMailTargetAddress =
-  process.env.NIH_SUBSCRIPTION_MAIL_TARGET_ADDRESS;
+const { useVault } = personaConfig;
 
 let config = {
   host: "smtp.gmail.com",
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-    user: process.env.NIH_SUBSCRIPTION_MAIL_USERNAME, // generated ethereal user
-    pass: process.env.NIH_SUBSCRIPTION_MAIL_PASS // generated ethereal password
+    user: nihSubscriptionMailUserName,
+    pass: nihSubscriptionMailUserName
   }
 };
 
@@ -20,8 +25,8 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
     const transporter = nodemailer.createTransport(config);
     const { email, firstName, lastName } = user;
     const mailOptions = {
-      from: `"Kids First DRP " <${nihSubscriptionMailTargetAddress}>`, // sender address
-      to: process.env.NIH_SUBSCRIPTION_MAIL_TARGET_ADDRESS, // list of receivers
+      from: `"Kids First DRP " <${nihSubscriptionMailFromAddress}>`, // sender address
+      to: nihSubscriptionMailTargetAddress, // list of receivers
       subject: "Kids First DRP Registration", // Subject line
       text: `Full User Name: ${firstName} ${lastName}
       User Email: ${email}
@@ -38,23 +43,27 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
   });
 
 export const retrieveEmailSecrets = async () =>
-  (await vaultClient())
-    .read(vaultSecretPath)
-    .then(
-      ({ data: { nihSubscriptionMailUsername, nihSubscriptionMailPass } }) => {
-        config = {
-          ...config,
-          auth: {
-            ...config.auth,
-            user: nihSubscriptionMailUsername,
-            pass: nihSubscriptionMailPass
+  useVault
+    ? (await vaultClient())
+        .read(vaultAppSecretPath)
+        .then(
+          ({
+            data: { nihSubscriptionMailUsername, nihSubscriptionMailPass }
+          }) => {
+            config = {
+              ...config,
+              auth: {
+                ...config.auth,
+                user: nihSubscriptionMailUsername,
+                pass: nihSubscriptionMailPass
+              }
+            };
           }
-        };
-      }
-    )
-    .catch(e => {
-      console.log(
-        "failed to retrieve nih email credentials, falling back to environment config"
-      );
-      console.log(e);
-    });
+        )
+        .catch(e => {
+          console.log(
+            "failed to retrieve nih email credentials, falling back to environment config"
+          );
+          console.log(e);
+        })
+    : false;

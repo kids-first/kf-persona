@@ -1,14 +1,19 @@
 import md5 from "crypto-js/md5";
 import fetch from "node-fetch";
-import { vaultClient } from "@overture-stack/persona";
+import { vaultClient, config as personaConfig } from "@overture-stack/persona";
+import {
+  vaultAppSecretPath,
+  kfMailchimpListId,
+  kfMailchimpApiKey,
+  kfMailchimpUserName
+} from "../env";
 
-// TODO: hook into global config, this is kept self-contained for easier refactoring if needed
-const vaultSecretPath = process.env.VAULT_APP_SECRET_PATH || "secret/app";
+const { useVault } = personaConfig;
 
 let config = {
-  kfMailchimpListId: process.env.KF_MAILCHIMP_LIST_ID || "",
-  kfMailchimpApiKey: process.env.KF_MAILCHIMP_API_KEY || "",
-  kfMailchimpUserName: process.env.KF_MAILCHIMP_USERNAME || ""
+  kfMailchimpListId,
+  kfMailchimpApiKey,
+  kfMailchimpUserName
 };
 
 export const newMailchimpSubscription = async ({ user }) => {
@@ -37,22 +42,24 @@ export const newMailchimpSubscription = async ({ user }) => {
 };
 
 export const retrieveMailchimpSecrets = async () =>
-  (await vaultClient())
-    .read(vaultSecretPath)
-    .then(
-      ({
-        data: { kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }
-      }) => {
-        config = {
-          ...config,
-          kfMailchimpApiKey,
-          kfMailchimpUserName,
-          kfMailchimpListId
-        };
-      }
-    )
-    .catch(e => {
-      console.log(
-        "failed to retrieve mailchimpCredential, falling back to environment config"
-      );
-    });
+  useVault
+    ? (await vaultClient())
+        .read(vaultAppSecretPath)
+        .then(
+          ({
+            data: { kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }
+          }) => {
+            config = {
+              ...config,
+              kfMailchimpApiKey,
+              kfMailchimpUserName,
+              kfMailchimpListId
+            };
+          }
+        )
+        .catch(e => {
+          console.log(
+            "failed to retrieve mailchimpCredential, falling back to environment config"
+          );
+        })
+    : false;
