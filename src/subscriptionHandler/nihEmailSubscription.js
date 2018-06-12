@@ -33,7 +33,6 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
       Date Opted IN: ${new Date().toString()}
       Source = Kids First DRP Registration` // plain text body
     };
-    console.log("mailOptions: ", mailOptions);
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         reject(error);
@@ -61,9 +60,9 @@ export const retrieveEmailSecrets = async () =>
           }
         )
         .catch(e => {
-          console.log(
+          console.error(e);
+          console.warn(
             "failed to retrieve nih email credentials, falling back to environment config"
           );
-          console.log(e);
         })
     : false;

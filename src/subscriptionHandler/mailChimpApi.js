@@ -58,7 +58,8 @@ export const retrieveMailchimpSecrets = async () =>
           }
         )
         .catch(e => {
-          console.log(
+          console.error(e);
+          console.warn(
             "failed to retrieve mailchimpCredential, falling back to environment config"
           );
         })
