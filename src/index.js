@@ -18,7 +18,6 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 personaApi({
   ego: {
-    url: egoURL,
     required: true,
     accessRules: [
       {
