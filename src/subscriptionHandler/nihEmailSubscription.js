@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { vaultClient, config as personaConfig } from "@overture-stack/persona";
 import {
-  vaultAppSecretPath,
+  vaultEmailSecretPath,
   nihSubscriptionMailTargetAddress,
   nihSubscriptionMailFromAddress,
   nihSubscriptionMailUserName,
@@ -11,21 +11,20 @@ import {
 const { useVault } = personaConfig;
 
 let config = {
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // true for 465, false for other ports
+  service: "gmail",
   auth: {
     user: nihSubscriptionMailUserName,
-    pass: nihSubscriptionMailUserName
+    pass: nihSubscriptionMailPass
   }
 };
 
 export const sendNihSubscriptionEmail = async ({ user }) =>
   new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport(config);
+    console.log("config: ", config);
     const { email, firstName, lastName } = user;
     const mailOptions = {
-      from: `"Kids First DRP " <${nihSubscriptionMailFromAddress}>`, // sender address
+      from: `"Kids First DRP " <${config.auth.user}>`, // sender address
       to: nihSubscriptionMailTargetAddress, // list of receivers
       subject: "Kids First DRP Registration", // Subject line
       text: `Full User Name: ${firstName} ${lastName}
@@ -44,21 +43,18 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
 export const retrieveEmailSecrets = async () =>
   useVault
     ? (await vaultClient())
-        .read(vaultAppSecretPath)
-        .then(
-          ({
-            data: { nihSubscriptionMailUsername, nihSubscriptionMailPass }
-          }) => {
-            config = {
-              ...config,
-              auth: {
-                ...config.auth,
-                user: nihSubscriptionMailUsername,
-                pass: nihSubscriptionMailPass
-              }
-            };
-          }
-        )
+        .read(vaultEmailSecretPath)
+        .then(({ data: { email, password } }) => {
+          config = {
+            ...config,
+            auth: {
+              ...config.auth,
+              user: email,
+              pass: password
+            }
+          };
+          console.log("config: ", config);
+        })
         .catch(e => {
           console.error(e);
           console.warn(

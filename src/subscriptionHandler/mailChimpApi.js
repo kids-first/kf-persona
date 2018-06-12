@@ -2,7 +2,7 @@ import md5 from "crypto-js/md5";
 import fetch from "node-fetch";
 import { vaultClient, config as personaConfig } from "@overture-stack/persona";
 import {
-  vaultAppSecretPath,
+  vaultMailchimpSecretPath,
   kfMailchimpListId,
   kfMailchimpApiKey,
   kfMailchimpUserName
@@ -44,7 +44,7 @@ export const newMailchimpSubscription = async ({ user }) => {
 export const retrieveMailchimpSecrets = async () =>
   useVault
     ? (await vaultClient())
-        .read(vaultAppSecretPath)
+        .read(vaultMailchimpSecretPath)
         .then(
           ({
             data: { kfMailchimpApiKey, kfMailchimpUserName, kfMailchimpListId }

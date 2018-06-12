@@ -2,8 +2,8 @@ export const port = process.env.PORT || 3232;
 
 export const egoURL = process.env.EGO_API;
 
-export const vaultAppSecretPath =
-  process.env.VAULT_APP_SECRET_PATH || "secret/app";
+export const vaultMailchimpSecretPath = process.env.VAULT_MAILCHIMP_SECRET_PATH;
+export const vaultEmailSecretPath = process.env.VAULT_EMAIL_SECRET_PATH;
 
 export const kfMailchimpListId = process.env.KF_MAILCHIMP_LIST_ID || "";
 export const kfMailchimpApiKey = process.env.KF_MAILCHIMP_API_KEY || "";
