@@ -28,7 +28,8 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
       from: `"Kids First DRP " <${config.auth.user}>`, // sender address
       to: nihSubscriptionMailTargetAddress, // list of receivers
       subject: "Kids First DRP Registration", // Subject line
-      text: `Full User Name: ${firstName} ${lastName}
+      text: `
+      Full User Name: ${firstName} ${lastName}
       User Email: ${email}
       Date Opted IN: ${new Date().toString()}
       Source = Kids First DRP Registration` // plain text body
