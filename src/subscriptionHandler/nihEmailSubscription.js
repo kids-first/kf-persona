@@ -10,6 +10,8 @@ import {
 
 const { useVault } = personaConfig;
 
+const googleApiRequiredScopes = ["https://www.googleapis.com/auth/gmail.send"];
+
 let config = {
   service: "gmail",
   auth: {
@@ -21,7 +23,6 @@ let config = {
 export const sendNihSubscriptionEmail = async ({ user }) =>
   new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport(config);
-    console.log("config: ", config);
     const { email, firstName, lastName } = user;
     const mailOptions = {
       from: `"Kids First DRP " <${config.auth.user}>`, // sender address
@@ -33,6 +34,7 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
       Source = Kids First DRP Registration` // plain text body
     };
     transporter.sendMail(mailOptions, (error, info) => {
+      console.error("error: ", error);
       if (error) {
         reject(error);
       }
@@ -53,7 +55,6 @@ export const retrieveEmailSecrets = async () =>
               pass: password
             }
           };
-          console.log("config: ", config);
         })
         .catch(e => {
           console.error(e);
