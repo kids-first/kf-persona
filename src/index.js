@@ -10,12 +10,7 @@ import egoTokenMiddleware from "ego-token-middleware";
 import { subscription } from "./endpoints";
 import { retrieveSecrets } from "./services/secrets";
 
-import {
-  port,
-  egoURL,
-  vaultEmailSecretPath,
-  vaultMailchimpSecretPath
-} from "./env";
+import { port, egoURL } from "./env";
 import userSchema from "./schema/User";
 
 const app = express();
