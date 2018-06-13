@@ -1,5 +1,4 @@
 import "babel-polyfill";
-
 import express from "express";
 import { Server } from "http";
 import cors from "cors";
@@ -7,6 +6,7 @@ import bodyParser from "body-parser";
 import { rainbow } from "chalk-animation";
 
 import personaApi from "@overture-stack/persona";
+import egoTokenMiddleware from "ego-token-middleware";
 import handleSubscription, {
   retrieveEmailSecrets,
   retrieveMailchimpSecrets
@@ -39,7 +39,7 @@ Promise.all([
   retrieveEmailSecrets(),
   retrieveMailchimpSecrets()
 ]).then(([router]) => {
-  app.use("/subscribe", handleSubscription());
+  app.use("/subscribe", egoTokenMiddleware({ egoURL }), handleSubscription());
   app.use(router);
   http.listen(port, () => rainbow(`⚡️ Listening on port ${port} ⚡️`));
 });
