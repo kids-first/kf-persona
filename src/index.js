@@ -41,7 +41,6 @@ Promise.all([
   }),
   retrieveSecrets()
 ]).then(([router, [emailSecret, mailchimpSecret]]) => {
-  console.log("emailSecret: ", emailSecret);
   app.use(
     "/subscribe",
     egoTokenMiddleware({ egoURL }),

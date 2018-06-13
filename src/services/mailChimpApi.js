@@ -3,7 +3,6 @@ import fetch from "node-fetch";
 import { vaultClient } from "@overture-stack/persona";
 
 export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
-  console.log("mailchimpSecret: ", mailchimpSecret);
   const {
     kfMailchimpListId,
     kfMailchimpUserName,
