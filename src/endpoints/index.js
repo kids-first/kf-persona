@@ -1,5 +1,5 @@
-import { newMailchimpSubscription } from "../services/mailChimpApi";
-import { sendNihSubscriptionEmail } from "../services/nihEmailSubscription";
+import { newMailchimpSubscription } from "../services/mailChimp";
+import { sendNihSubscriptionEmail } from "../services/nihEmail";
 
 export const subscription = ({ emailSecret, mailchimpSecret }) => async (
   req,
