@@ -7,12 +7,15 @@ import { rainbow } from "chalk-animation";
 
 import personaApi from "@overture-stack/persona";
 import egoTokenMiddleware from "ego-token-middleware";
-import handleSubscription, {
-  retrieveEmailSecrets,
-  retrieveMailchimpSecrets
-} from "./subscriptionHandler";
+import { subscription } from "./endpoints";
+import { retrieveSecrets } from "./services/secrets";
 
-import { port, egoURL } from "./env";
+import {
+  port,
+  egoURL,
+  vaultEmailSecretPath,
+  vaultMailchimpSecretPath
+} from "./env";
 import userSchema from "./schema/User";
 
 const app = express();
@@ -36,10 +39,14 @@ Promise.all([
     },
     tags: { User: ["interests"] }
   }),
-  retrieveEmailSecrets(),
-  retrieveMailchimpSecrets()
-]).then(([router]) => {
-  app.use("/subscribe", egoTokenMiddleware({ egoURL }), handleSubscription());
+  retrieveSecrets()
+]).then(([router, [emailSecret, mailchimpSecret]]) => {
+  console.log("emailSecret: ", emailSecret);
+  app.use(
+    "/subscribe",
+    egoTokenMiddleware({ egoURL }),
+    subscription({ emailSecret, mailchimpSecret })
+  );
   app.use(router);
   http.listen(port, () => rainbow(`⚡️ Listening on port ${port} ⚡️`));
 });

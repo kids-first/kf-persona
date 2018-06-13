@@ -8,20 +8,14 @@ import {
   nihSubscriptionMailPass
 } from "../env";
 
-const { useVault } = personaConfig;
-
 const googleApiRequiredScopes = ["https://www.googleapis.com/auth/gmail.send"];
 
-let config = {
-  service: "gmail",
-  auth: {
-    user: nihSubscriptionMailUserName,
-    pass: nihSubscriptionMailPass
-  }
-};
-
-export const sendNihSubscriptionEmail = async ({ user }) =>
+export const sendNihSubscriptionEmail = async ({ user, emailSecret }) =>
   new Promise((resolve, reject) => {
+    const config = {
+      service: "gmail",
+      auth: emailSecret
+    };
     const transporter = nodemailer.createTransport(config);
     const { email, firstName, lastName } = user;
     const mailOptions = {
@@ -41,25 +35,3 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
       resolve();
     });
   });
-
-export const retrieveEmailSecrets = async () =>
-  useVault
-    ? (await vaultClient())
-        .read(vaultEmailSecretPath)
-        .then(({ data: { email, password } }) => {
-          config = {
-            ...config,
-            auth: {
-              ...config.auth,
-              user: email,
-              pass: password
-            }
-          };
-        })
-        .catch(e => {
-          console.error(e);
-          console.warn(
-            "failed to retrieve nih email credentials, falling back to environment config"
-          );
-        })
-    : false;
