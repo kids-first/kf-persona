@@ -35,7 +35,6 @@ export const sendNihSubscriptionEmail = async ({ user }) =>
       Source = Kids First DRP Registration` // plain text body
     };
     transporter.sendMail(mailOptions, (error, info) => {
-      console.error("error: ", error);
       if (error) {
         reject(error);
       }
