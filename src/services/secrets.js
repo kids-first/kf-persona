@@ -23,16 +23,17 @@ const emailSecretFallback = {
   pass: envNihSubscriptionMailPass
 };
 
-export const retrieveSecrets = async () =>
+export const retrieveSecrets = () =>
   useVault
-    ? [vaultEmailSecretPath, vaultMailchimpSecretPath].map(async secretPath =>
-        (await vaultClient())
-          .read(secretPath)
-          .then(({ data }) => data)
-          .catch(async e => {
-            console.error(`failed to retrieve secret at ${secretPath}:`);
-            console.error(e);
-            process.exit();
-          })
+    ? Promise.all(
+        [vaultEmailSecretPath, vaultMailchimpSecretPath].map(async secretPath =>
+          (await vaultClient())
+            .read(secretPath)
+            .then(({ data }) => data)
+            .catch(e => {
+              console.error(`failed to retrieve secret at ${secretPath}`);
+              return Promise.reject(e);
+            })
+        )
       )
-    : [emailSecretFallback, mailchimpSecretFallback];
+    : Promise.resolve([emailSecretFallback, mailchimpSecretFallback]);

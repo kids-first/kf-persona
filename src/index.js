@@ -34,7 +34,10 @@ Promise.all([
     },
     tags: { User: ["interests"] }
   }),
-  retrieveSecrets()
+  retrieveSecrets().catch(e => {
+    console.error(e);
+    process.exit(1);
+  })
 ]).then(([router, [emailSecret, mailchimpSecret]]) => {
   app.use(
     "/subscribe",
