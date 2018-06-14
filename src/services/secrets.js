@@ -29,7 +29,15 @@ export const retrieveSecrets = () =>
         [vaultEmailSecretPath, vaultMailchimpSecretPath].map(async secretPath =>
           (await vaultClient())
             .read(secretPath)
-            .then(({ data }) => data)
+            .then(
+              ({ data }) =>
+                secretPath === vaultEmailSecretPath
+                  ? {
+                      user: data.email,
+                      pass: data.password
+                    }
+                  : data
+            )
             .catch(e => {
               console.error(`failed to retrieve secret at ${secretPath}`);
               return Promise.reject(e);

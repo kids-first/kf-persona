@@ -9,10 +9,10 @@ export const subscription = ({ emailSecret, mailchimpSecret }) => async (
   const { acceptedKfOptIn, acceptedNihOptIn } = user;
 
   if (acceptedKfOptIn) {
-    await newMailchimpSubscription({ user, emailSecret });
+    await newMailchimpSubscription({ user, mailchimpSecret });
   }
   if (acceptedNihOptIn) {
-    await sendNihSubscriptionEmail({ user, mailchimpSecret });
+    await sendNihSubscriptionEmail({ user, emailSecret });
   }
   res.end();
 };
