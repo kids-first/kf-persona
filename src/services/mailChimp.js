@@ -1,6 +1,5 @@
 import md5 from "crypto-js/md5";
 import fetch from "node-fetch";
-import { vaultClient } from "@overture-stack/persona";
 
 export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
   const {

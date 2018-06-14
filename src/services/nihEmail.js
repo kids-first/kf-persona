@@ -1,7 +1,5 @@
 import nodemailer from "nodemailer";
-import { vaultClient, config as personaConfig } from "@overture-stack/persona";
 import {
-  vaultEmailSecretPath,
   nihSubscriptionMailTargetAddress,
   nihSubscriptionMailFromAddress,
   nihSubscriptionMailUserName,
