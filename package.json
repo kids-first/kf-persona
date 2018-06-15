@@ -18,7 +18,6 @@
     "@babel/register": "^7.0.0-beta.49",
     "@overture-stack/persona": "1.0.0",
     "body-parser": "^1.18.3",
-    "chalk-animation": "^1.6.0",
     "cors": "^2.8.4",
     "crypto-js": "^3.1.9-1",
     "dotenv": "^6.0.0",
