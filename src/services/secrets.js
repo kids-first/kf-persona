@@ -47,4 +47,7 @@ export const retrieveSecrets = () =>
         emailSecret,
         mailchimpSecret
       }))
-    : Promise.resolve([emailSecretFallback, mailchimpSecretFallback]);
+    : Promise.resolve({
+        emailSecret: emailSecretFallback,
+        mailchimpSecret: mailchimpSecretFallback
+      });
