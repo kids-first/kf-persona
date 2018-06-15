@@ -4,6 +4,8 @@ RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
 
+RUN apk add --update --no-cache git
+
 # copy just the package.json/yarn.lock and install dependencies for caching
 COPY package.json yarn.lock ./
 
