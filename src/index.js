@@ -10,6 +10,7 @@ import egoTokenMiddleware from "ego-token-middleware";
 import { subscribe } from "./endpoints";
 import { retrieveSecrets } from "./services/secrets";
 
+import { version } from "../package.json";
 import { port, egoURL } from "./env";
 import userSchema from "./schema/User";
 
@@ -38,6 +39,7 @@ Promise.all([
 ])
   .then(([router, secrets]) => {
     app.use("/subscribe", egoTokenMiddleware({ egoURL }), subscribe(secrets));
+    app.get("/status", (req, res) => res.send({ version, ego: egoURL }));
     app.use(router);
     http.listen(port, () => rainbow(`⚡️ Listening on port ${port} ⚡️`));
   })
