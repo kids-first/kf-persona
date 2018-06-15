@@ -21,8 +21,7 @@ personaApi({
     accessRules: [
       {
         type: "allow",
-        route: ["/", "/(.*)"],
-        role: ["admin", "user"]
+        route: ["/", "/(.*)"]
       }
     ]
   },
