@@ -3,7 +3,6 @@ import express from "express";
 import { Server } from "http";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { rainbow } from "chalk-animation";
 
 import personaApi from "@overture-stack/persona";
 import egoTokenMiddleware from "ego-token-middleware";
@@ -41,7 +40,9 @@ Promise.all([
     app.use("/subscribe", egoTokenMiddleware({ egoURL }), subscribe(secrets));
     app.get("/status", (req, res) => res.send({ version, ego: egoURL }));
     app.use(router);
-    http.listen(port, () => rainbow(`⚡️ Listening on port ${port} ⚡️`));
+    http.listen(port, () =>
+      console.log(`⚡️⚡️⚡️ Listening on port ${port} ⚡️⚡️⚡️`)
+    );
   })
   .catch(e => {
     console.error(e);
