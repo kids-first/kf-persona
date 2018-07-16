@@ -1,6 +1,7 @@
 export default {
   fields: {
-    email: "String",
+    email: "String", //ego email can't be edited
+    institutionalEmail : "String", //can be edited
 
     acceptedTerms: "boolean",
 
@@ -16,9 +17,15 @@ export default {
     lastName: "String",
     jobTitle: "String",
     institution: "String",
+    addressLine1: "String",
+    addressLine2: "String",
     city: "String",
     state: "String",
+    zip: "String",
     country: "String",
+    phone: "String",
+    department: "String",
+    eraCommonsID: "String",
 
     // a bit about yourself
     bio: "String",
@@ -28,6 +35,11 @@ export default {
     website: "String",
     googleScholarId: "String",
     interests: ["String"],
+    twitter: "String",
+    facebook: "String",
+    github: "String",
+    linkedin: "String",
+    orchid: "String",
 
     //subscription opt-ins
     acceptedKfOptIn: "boolean",
