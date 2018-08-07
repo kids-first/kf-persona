@@ -9,7 +9,7 @@ export default {
     roles: [
       {
         type: String,
-        enum: ["research", "community", "health"]
+        enum: ["research", "community", "health", "patient"]
       }
     ],
     title: "String",
