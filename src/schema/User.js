@@ -34,7 +34,13 @@ export default {
     // research interests
     website: "String",
     googleScholarId: "String",
-    interests: {type: ["String"], set: interests => interests.map(interest => interest.toLowerCase()).filter((interest, i, arr) => arr.indexOf(interest) === i)},
+    interests: {
+      type: ["String"], 
+      set: interests =>
+      interests
+        .map(interest => interest.toLowerCase())
+        .filter((interest, i, arr) => arr.indexOf(interest) === i),
+    },
     twitter: "String",
     facebook: "String",
     github: "String",
