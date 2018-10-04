@@ -1,7 +1,5 @@
 "use strict";
 
-const ObjectID = require("mongodb").ObjectID;
-
 module.exports = {
   up(db) {
     const users = db.collection("users");
