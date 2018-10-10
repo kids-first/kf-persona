@@ -1,7 +1,7 @@
 export default {
   fields: {
     email: "String", //ego email can't be edited
-    institutionalEmail : "String", //can be edited
+    institutionalEmail: "String", //can be edited
 
     acceptedTerms: "boolean",
 
@@ -35,11 +35,11 @@ export default {
     website: "String",
     googleScholarId: "String",
     interests: {
-      type: ["String"], 
+      type: ["String"],
       set: interests =>
-      interests
-        .map(interest => interest.toLowerCase())
-        .filter((interest, i, arr) => arr.indexOf(interest) === i),
+        interests
+          .map(interest => interest.toLowerCase())
+          .filter((interest, i, arr) => arr.indexOf(interest) === i)
     },
     twitter: "String",
     facebook: "String",

@@ -7,7 +7,12 @@
     "start": "node index.js",
     "watch": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "git push && git push --tags"
+    "deploy": "git push && git push --tags",
+    "migrate": "PATH=$(npm bin):$PATH && persona-scripts migrate --args",
+    "migrate-up": "cd ./migrations && migrate-mongo up -f ./dist/config.js"
+  },
+  "bin": {
+    "persona-scripts": "node_modules/@overture-stack/persona/dist/src/persona-scripts/index.js"
   },
   "author": "",
   "license": "ISC",

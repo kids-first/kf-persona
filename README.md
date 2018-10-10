@@ -4,8 +4,8 @@ a kids-first instantiation of the persona microservice: https://github.com/overt
 
 ## usage
 
-* `npm i && npm start`.
+- `npm i && npm start`.
 
 ## migrations
 
-* `persona-scripts migrate --args "<<migrate-mongo arguments>>"`. see https://github.com/overture-stack/persona for more information
+- `npm run migrate "<<migrate-mongo arguments>>"` (this wraps persona's `persona-scripts`) see https://github.com/overture-stack/persona for more information
