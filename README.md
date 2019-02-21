@@ -2,9 +2,11 @@
 
 a kids-first instantiation of the persona microservice: https://github.com/overture-stack/persona
 
-## usage
+## Development
 
-- `npm i && npm start`.
+- Make sure you have access to a mongoDB instance, preferably running locally
+- Create a local `.env` file based on the provided schema in `.env.schema`
+- `yarn && yarn start`.
 
 ## migrations
 
