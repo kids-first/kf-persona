@@ -3,9 +3,9 @@ import { sendNihSubscriptionEmail } from "../services/nihEmail";
 
 export default ({ emailSecret, mailchimpSecret }) => async (req, res) => {
   const { user = {} } = req.body;
-  const { acceptedKfOptIn, acceptedNihOptIn } = user;
-
-  if (acceptedKfOptIn) {
+  const { acceptedKfOptIn, acceptedNihOptIn, acceptedDatasetSubscriptionKfOptIn } = user;
+  
+  if (acceptedKfOptIn || acceptedDatasetSubscriptionKfOptIn) {
     await newMailchimpSubscription({ user, mailchimpSecret });
   }
   if (acceptedNihOptIn) {

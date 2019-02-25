@@ -9,13 +9,15 @@ import {
   // mailchimp secrets
   kfMailchimpListId as envKfMailchimpListId,
   kfMailchimpApiKey as envKfMailchimpApiKey,
-  kfMailchimpUserName as envKfMailchimpUserName
+  kfMailchimpUserName as envKfMailchimpUserName,
+  kfDatasetSubscriptionListId as envkfDatasetSubscriptionListId,
 } from "../env";
 
 const mailchimpSecretFallback = {
   kfMailchimpListId: envKfMailchimpListId,
   kfMailchimpApiKey: envKfMailchimpApiKey,
-  kfMailchimpUserName: envKfMailchimpUserName
+  kfMailchimpUserName: envKfMailchimpUserName,
+  kfDatasetSubscriptionListId: envkfDatasetSubscriptionListId
 };
 
 const emailSecretFallback = {

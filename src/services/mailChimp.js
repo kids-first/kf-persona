@@ -5,14 +5,24 @@ export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
   const {
     kfMailchimpListId,
     kfMailchimpUserName,
-    kfMailchimpApiKey
+    kfMailchimpApiKey,
+    kfDatasetSubscriptionListId
   } = mailchimpSecret;
   const hash = md5(user.email.toLowerCase()).toString();
   const mailChimpDataCenter = kfMailchimpApiKey.split("-")[1];
   const buff = new Buffer(`${kfMailchimpUserName}:${kfMailchimpApiKey}`);
   const b64 = buff.toString("base64");
+
+  let url = '';
+  if(user.acceptedDatasetSubscriptionKfOptIn){
+    url = `https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfDatasetSubscriptionListId}/members/`;
+  }
+  if(user.acceptedKfOptIn){
+    url = `https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfMailchimpListId}/members/`;
+  }
+  
   return await fetch(
-    `https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfMailchimpListId}/members/`,
+    url,
     {
       method: "POST",
       headers: {

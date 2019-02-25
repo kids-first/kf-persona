@@ -8,6 +8,7 @@ export const vaultEmailSecretPath = process.env.VAULT_EMAIL_SECRET_PATH;
 export const kfMailchimpListId = process.env.KF_MAILCHIMP_LIST_ID || "";
 export const kfMailchimpApiKey = process.env.KF_MAILCHIMP_API_KEY || "";
 export const kfMailchimpUserName = process.env.KF_MAILCHIMP_USERNAME || "";
+export const kfDatasetSubscriptionListId = process.env.KF_DATASET_SUBSCRIPTION_LIST_ID || "";
 
 export const nihSubscriptionMailFromAddress =
   process.env.NIH_SUBSCRIPTION_MAIL_FROM_ADDRESS;
