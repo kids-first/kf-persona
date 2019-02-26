@@ -16,31 +16,34 @@ export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
 
   const urls = [];
 
-  if(user.acceptedDatasetSubscriptionKfOptIn)
-    urls.push(`https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfDatasetSubscriptionListId}/members/`)
+  if (user.acceptedDatasetSubscriptionKfOptIn)
+    urls.push(
+      `https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfDatasetSubscriptionListId}/members/`
+    );
 
-  if(user.acceptedKfOptIn)
-    urls.push(`https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfMailchimpListId}/members/`)
+  if (user.acceptedKfOptIn)
+    urls.push(
+      `https://${mailChimpDataCenter}.api.mailchimp.com/3.0/lists/${kfMailchimpListId}/members/`
+    );
 
-  await Promise.all(urls.map(url => fetch(
-          url,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Basic ${b64}`
-            },
-            body: JSON.stringify({
-              email_address: user.email,
-              status: "subscribed",
-              merge_fields: {
-                FNAME: user.firstName,
-                LNAME: user.lastName
-              }
-            })
+  await Promise.all(
+    urls.map(url =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${b64}`
+        },
+        body: JSON.stringify({
+          email_address: user.email,
+          status: "subscribed",
+          merge_fields: {
+            FNAME: user.firstName,
+            LNAME: user.lastName
           }
-        ).then(res => res.json()))
-      ).catch(error => {
-        console.error(error);
-      });
-}
-
+        })
+      }).then(res => res.json())
+    )
+  ).catch(error => {
+    console.error(error);
+  });
+};
