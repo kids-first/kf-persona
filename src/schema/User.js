@@ -50,6 +50,7 @@ export default {
     //subscription opt-ins
     acceptedKfOptIn: "boolean",
     acceptedNihOptIn: "boolean",
+    acceptedDatasetSubscriptionKfOptIn: "boolean",
 
     sets: [
       {
