@@ -1,3 +1,4 @@
+import { every, has } from "lodash";
 export default {
   fields: {
     email: "String", //ego email can't be edited
@@ -59,7 +60,23 @@ export default {
         type: { type: "String" },
         setId: "String"
       }
-    ]
+    ],
+
+    virtualStudies: {
+      type: [
+        {
+          id: "String",
+          name: "String"
+        }
+      ],
+      set: virtualStudies => {
+        if (every(virtualStudies, v => has(v, "id.length"))) {
+          return virtualStudies;
+        } else {
+          throw new Error("Virtual studies must have IDs");
+        }
+      }
+    }
   },
   collection: "users"
 };
