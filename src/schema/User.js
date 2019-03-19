@@ -1,4 +1,4 @@
-import { every, has } from "lodash";
+import { every, has, some } from "lodash";
 export default {
   fields: {
     email: "String", //ego email can't be edited
@@ -70,10 +70,29 @@ export default {
         }
       ],
       set: virtualStudies => {
-        if (every(virtualStudies, v => has(v, "id.length"))) {
+        const allHaveIds = every(virtualStudies, v => has(v, "id.length"));
+        const allHaveNames = every(virtualStudies, v => has(v, "name.length"));
+        const hasDuplicate = some(
+          Object.entries(
+            virtualStudies.reduce((acc, { id }) => {
+              acc[id] = (acc[id] || 0) + 1;
+              return acc;
+            }, {})
+          ),
+          ([id, count]) => count > 1
+        );
+        if (allHaveIds && allHaveNames && !hasDuplicate) {
           return virtualStudies;
         } else {
-          throw new Error("Virtual studies must have IDs");
+          if (!allHaveIds) {
+            throw new Error("Virtual studies must have IDs");
+          }
+          if (!allHaveNames) {
+            throw new Error("Virtual studies must have names");
+          }
+          if (hasDuplicate) {
+            throw new Error("Virtual studies contain duplicate IDs");
+          }
         }
       }
     }
