@@ -81,19 +81,15 @@ export default {
           ),
           ([id, count]) => count > 1
         );
-        if (allHaveIds && allHaveNames && !hasDuplicate) {
-          return virtualStudies;
-        } else {
-          if (!allHaveIds) {
+        switch (true) {
+          case !allHaveIds:
             throw new Error("Virtual studies must have IDs");
-          }
-          if (!allHaveNames) {
+          case !allHaveNames:
             throw new Error("Virtual studies must have names");
-          }
-          if (hasDuplicate) {
+          case hasDuplicate:
             throw new Error("Virtual studies contain duplicate IDs");
-          }
         }
+        return virtualStudies;
       }
     }
   },
