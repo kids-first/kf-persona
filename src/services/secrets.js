@@ -1,4 +1,4 @@
-import { vaultClient, config as personaConfig } from "@overture-stack/persona";
+import { vaultClient, config as personaConfig } from "@kids-first/persona";
 const { useVault } = personaConfig;
 import {
   vaultEmailSecretPath,

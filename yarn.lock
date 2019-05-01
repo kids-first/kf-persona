@@ -534,9 +534,9 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@overture-stack/persona@1.1.1":
+"@kids-first/persona@1.1.1":
   version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@overture-stack/persona/-/persona-1.1.1.tgz#80d9a0c08e4623f3d16851eba189198f05e885f5"
+  resolved "https://registry.yarnpkg.com/@kids-first/persona/-/persona-1.1.1.tgz#80d9a0c08e4623f3d16851eba189198f05e885f5"
   integrity sha512-qrGxn3sxlfcPMWUj+VAOxX8zwfpr3WwE/Rfp/yrUAIIxQyZuZ0kGIBjUkSe6eexg34I8S5JML2P0l0Uy4Xso7Q==
   dependencies:
     "@types/node" "^8.0.51"
