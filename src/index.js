@@ -4,7 +4,7 @@ import { Server } from "http";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import personaApi from "@kids-first/persona";
+import personaApi from "@kfpersona/persona";
 import egoTokenMiddleware from "ego-token-middleware";
 import { subscribe } from "./endpoints";
 import { retrieveSecrets } from "./services/secrets";

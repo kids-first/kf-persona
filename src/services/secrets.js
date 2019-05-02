@@ -1,4 +1,4 @@
-import { vaultClient, config as personaConfig } from "@kids-first/persona";
+import { vaultClient, config as personaConfig } from "@kfpersona/persona";
 const { useVault } = personaConfig;
 import {
   vaultEmailSecretPath,
