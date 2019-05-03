@@ -12,7 +12,7 @@
     "migrate-up": "cd ./migrations && migrate-mongo up -f ./dist/config.js"
   },
   "bin": {
-    "persona-scripts": "node_modules/@kids-first/persona/dist/src/persona-scripts/index.js"
+    "persona-scripts": "node_modules/@kfpersona/persona/dist/src/persona-scripts/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +22,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.49",
     "@babel/preset-env": "^7.0.0-beta.49",
     "@babel/register": "^7.0.0-beta.49",
-    "@kfpersona/persona": "1.2.1",
+    "@kfpersona/persona": "1.2.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "crypto-js": "^3.1.9-1",
