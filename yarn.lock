@@ -1628,18 +1628,6 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-ego-token-middleware@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/ego-token-middleware/-/ego-token-middleware-0.0.8.tgz#36e599522254a5ad8168508baa87b0046d62dfb1"
-  dependencies:
-    axios "^0.18.0"
-    jest "^22.4.4"
-    jsonwebtoken "^8.2.0"
-    lodash "^4.17.10"
-    memoizee "^0.4.12"
-    path-to-regexp "^2.2.1"
-    url-join "^4.0.0"
-
 ego-token-middleware@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ego-token-middleware/-/ego-token-middleware-1.0.1.tgz#b4e39c978f451ca3d5b9370755ec68bcc2128523"
@@ -3381,6 +3369,19 @@ jws@^3.1.4:
 kareem@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-1.5.0.tgz#e3e4101d9dcfde299769daf4b4db64d895d17448"
+
+kfego-token-middleware@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/kfego-token-middleware/-/kfego-token-middleware-1.1.0.tgz#a313811c247a6ffe8ed69b9b7d256533ffde2306"
+  integrity sha512-Vci4hCa+UVbOFde1BqyCnJHRQnmRhxy6KZvskdptXcPrmT6gFWhRH1Z76UyS5UDPeLF0PpNtg00xmlS2WiQukA==
+  dependencies:
+    axios "^0.18.0"
+    jest "^22.4.4"
+    jsonwebtoken "^8.2.0"
+    lodash "^4.17.10"
+    memoizee "^0.4.12"
+    path-to-regexp "^2.2.1"
+    url-join "^4.0.0"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
