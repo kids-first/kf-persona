@@ -28,6 +28,11 @@ export default {
     department: "String",
     eraCommonsID: "String",
 
+    isPublic: {         //is the profile public?
+      type: "boolean",
+      default: false
+    },
+
     // a bit about yourself
     bio: "String",
     story: "String",
