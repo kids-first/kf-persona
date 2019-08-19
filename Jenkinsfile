@@ -1,4 +1,6 @@
-@Library(value="oicr", changelog=false) _
+// @Library(value="oicr", changelog=false) _
+@Library("kids-first/aws-infra-jenkins-shared-libraries-develop") _
+
 persona_api{}
 
 // @Library(value='kids-first/aws-infra-jenkins-shared-libraries', changelog=false) _
