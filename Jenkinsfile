@@ -1,5 +1,5 @@
 // @Library(value="oicr", changelog=false) _
-@Library("kids-first/aws-infra-jenkins-shared-libraries") _
+@Library("kids-first/aws-infra-jenkins-shared-libraries-develop") _
 
 persona_api{
     agentLabel = "terraform-testing"
