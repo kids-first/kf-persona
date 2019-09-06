@@ -22,13 +22,9 @@ const isSelf = models => async ({ args, context }) => {
   return `${egoId}` === `${context.jwt.sub}`;
 };
 
-/**
- * Is the requestedID the _id of a public profile?
- *
- * @param requestedID
- */
-const isPublicProfile = async function (models, requestedID) {
-  const isPublic = await models.User.findOne({"_id": new ObjectId(requestedID)}).then(doc => doc.isPublic);
+const isPublicProfile = models => async ({ args, context }) => {
+  const _id = args._id || args.record._id;
+  const isPublic = await models.User.findOne({ _id }).then(doc => doc.isPublic);
 
   return (typeof isPublic === "undefined" || isPublic === null) ? false : isPublic;  //if we don't have a isPublic field, undefined
 };
@@ -67,17 +63,11 @@ export const adminOrAppGate = ({ errMsg = defaultErrorMessage }) => async ({
   }
 };
 
-/**
- * Returns true if user is an admin, an app, or if we're asking about a user whose profile is public
- *
- * Otherwise, throws an Error
- *
- * @param errMsg
- */
-export const adminOrAppOrPublicGate = ({ models, requestedID, errMsg = defaultErrorMessage }) => async ({
- context: { jwt },
+export const adminOrAppOrPublicGate = ({ models, errMsg = defaultErrorMessage }) => async ({
+    args,
+ context,
 }) => {
-  const passesGate = isAdmin({ context: { jwt } }) || isApplication({ context: { jwt } }) || (await isPublicProfile(models, requestedID));
+  const passesGate = isAdmin({ context }) || isApplication({ context }) || (await isPublicProfile(models)({ args, context }));
 
   if (!passesGate) {
     throw new Error(errMsg);

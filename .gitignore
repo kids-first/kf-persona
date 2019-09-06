@@ -3,3 +3,4 @@ node_modules
 migrations/dist
 .vscode
 .yarnclean
+.idea
