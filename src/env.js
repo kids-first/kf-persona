@@ -42,4 +42,4 @@ export const vaultMongoUsernameKey =
     process.env.MONGO_USERNAME_KEY || 'mongodb-username';
 export const vaultMongoUserpassKey =
     process.env.MONGO_USERPASS_KEY || 'mongodb-pass';
-export const sqsQueueName = process.env.SQS_QUEUE_NAME;
+export const sqsQueueUrl = process.env.SQS_QUEUE_URL;

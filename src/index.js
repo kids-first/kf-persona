@@ -9,12 +9,11 @@ import {subscribe, push} from "./endpoints";
 import {retrieveSecrets} from "./services/secrets";
 
 import {version} from "../package.json";
-import {port, egoURL, egoApi} from "./env";
+import {port, egoURL, egoApi, sqsQueueUrl} from "./env";
 import {userModel} from "./schema/User";
 import connect from './services/mongo';
 import graphqlHTTP from 'express-graphql';
 import {createSchema} from "./graphql";
-import {getQueueUrl} from './services/sqsQueue'
 import AWS from 'aws-sdk'
 
 const app = express();
@@ -23,9 +22,8 @@ const sqs = new AWS.SQS({apiVersion: '2012-11-05'});
 
 Promise.all([
     connect(),
-    retrieveSecrets(),
-    getQueueUrl(sqs)]
-).then(([, secrets, queueName]) => {
+    retrieveSecrets()]
+).then(([, secrets]) => {
     app.use(cors());
     app.use(bodyParser.json({limit: "50mb"}));
     app.use(
@@ -61,7 +59,7 @@ Promise.all([
     );
     app.use("/subscribe", subscribe(secrets));
     app.get("/status", (req, res) => res.send({version, ego: egoURL}));
-    app.get("/push", push(userModel, sqs, queueName));
+    app.get("/push", push(userModel, sqs, sqsQueueUrl));
 
     //TODO These 2 last comes from persona. What should we do?
     // // catch 404 and forward to error handler
