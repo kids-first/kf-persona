@@ -25,8 +25,7 @@ const isSelf = models => async ({ args, context }) => {
 const isPublicProfile = models => async ({ args, context }) => {
   const _id = args._id || args.record._id;
   const isPublic = await models.User.findOne({ _id }).then(doc => doc.isPublic);
-
-  return (typeof isPublic === "undefined" || isPublic === null) ? false : isPublic;  //if we don't have a isPublic field, undefined
+  return  Boolean(isPublic)
 };
 
 const defaultErrorMessage = 'Access denied';

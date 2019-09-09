@@ -48,7 +48,6 @@ Promise.all([
     );
     app.use(
         '/graphql',
-        bodyParser.json(),
         graphqlHTTP((err, res) => ({
             schema: createSchema({models: {User: userModel}}),
             formatError: err => {
@@ -61,20 +60,18 @@ Promise.all([
     app.get("/status", (req, res) => res.send({version, ego: egoURL}));
     app.get("/push", push(userModel, sqs, sqsQueueUrl));
 
-    //TODO These 2 last comes from persona. What should we do?
-    // // catch 404 and forward to error handler
-    // app.use(function(req, res, next) {
-    //     var err: any = new Error('Not Found');
-    //     err.status = 404;
-    //     next(err);
-    // });
-    // // error handler
-    // app.use(function(err, req, res, next) {
-    //     res.status(err.status || 500);
-    //     res.send({
-    //         message: req.app.get('env') === 'development' ? err.message : {},
-    //     });
-    // });
+    app.use(function(req, res, next) {
+        const err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    });
+    // error handler
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.send({
+            message: req.app.get('env') === 'development' ? err.message : {},
+        });
+    });
 
     http.listen(port, () =>
         console.log(`⚡️⚡️⚡️ Listening on port ${port} ⚡️⚡️⚡️`)

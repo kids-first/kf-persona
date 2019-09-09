@@ -1,6 +1,6 @@
 const sendMessage = (sqs, queueUrl) => user => {
     const params = {MessageBody: user, QueueUrl: queueUrl};
-    sqs.sendMessage(params).promise()
+    return sqs.sendMessage(params).promise();
 };
 
 export default (model, sqs, queueUrl) => async (req, res) => {
@@ -9,9 +9,9 @@ export default (model, sqs, queueUrl) => async (req, res) => {
 
     await model.find({})
         .exec()
-        .then((users) => {
-            Promise.all(users.map(u => sendMessage(sqs, queueUrl)(u)));
-        })
+        .then((users) =>
+            Promise.all(users.map(u => sendMessage(sqs, queueUrl)(u)))
+        )
         .then((results) => {
                 res.send({
                     result: 'ok',

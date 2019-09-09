@@ -4,3 +4,4 @@ migrations/dist
 .vscode
 .yarnclean
 .idea
+yarn-error.log
