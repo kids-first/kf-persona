@@ -10,15 +10,16 @@ import {retrieveSecrets} from "./services/secrets";
 
 import {version} from "../package.json";
 import {port, egoURL, egoApi, sqsQueueUrl} from "./env";
-import {userModel} from "./schema/User";
+import {getModel} from "./schema/User";
 import connect from './services/mongo';
 import graphqlHTTP from 'express-graphql';
 import {createSchema} from "./graphql";
+import {sendMessage, stubSendMessage} from "./services/sqs";
 import AWS from 'aws-sdk'
 
 const app = express();
 const http = Server(app);
-const sqs = new AWS.SQS({apiVersion: '2012-11-05'});
+const sendSqs = sqsQueueUrl ? sendMessage(new AWS.SQS({apiVersion: '2012-11-05'}), sqsQueueUrl) : stubSendMessage;
 
 Promise.all([
     connect(),
@@ -46,6 +47,7 @@ Promise.all([
             ]
         }),
     );
+    const userModel = getModel(sendSqs);
     app.use(
         '/graphql',
         graphqlHTTP((err, res) => ({
@@ -58,15 +60,15 @@ Promise.all([
     );
     app.use("/subscribe", subscribe(secrets));
     app.get("/status", (req, res) => res.send({version, ego: egoURL}));
-    app.get("/push", push(userModel, sqs, sqsQueueUrl));
+    app.get("/push", push(userModel, sendSqs));
 
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
         const err = new Error('Not Found');
         err.status = 404;
         next(err);
     });
     // error handler
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.send({
             message: req.app.get('env') === 'development' ? err.message : {},
