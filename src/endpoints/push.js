@@ -1,16 +1,8 @@
-const sendMessage = (sqs, queueUrl) => user => {
-    const params = {MessageBody: user, QueueUrl: queueUrl};
-    return sqs.sendMessage(params).promise();
-};
-
-export default (model, sqs, queueUrl) => async (req, res) => {
-    if (!queueUrl)
-        return Promise.resolve(res.status(500).json({message: 'Queue URL is not defined!'}));
-
+export default (model, send) => async (req, res) => {
     await model.find({})
         .exec()
         .then((users) =>
-            Promise.all(users.map(u => sendMessage(sqs, queueUrl)(u)))
+            Promise.all(users.map(u => send(u)))
         )
         .then((results) => {
                 res.send({
