@@ -27,6 +27,7 @@ Promise.all([
 ).then(([, secrets]) => {
     app.use(cors());
     app.use(bodyParser.json({limit: "50mb"}));
+    app.get("/status", (req, res) => res.send({version, ego: egoURL}));
     app.use(
         egoTokenMiddleware({
             egoURL: egoApi,
@@ -59,7 +60,6 @@ Promise.all([
         }))
     );
     app.use("/subscribe", subscribe(secrets));
-    app.get("/status", (req, res) => res.send({version, ego: egoURL}));
     app.get("/push", push(userModel, sendSqs));
 
     app.use(function (req, res, next) {
