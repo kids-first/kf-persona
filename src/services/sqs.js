@@ -1,5 +1,5 @@
 export const sendMessage = (sqs, queueUrl) => user => {
-    const params = {MessageBody: user, QueueUrl: queueUrl};
+    const params = {MessageBody: JSON.stringify(user), QueueUrl: queueUrl};
     return sqs.sendMessage(params).promise();
 
 };
