@@ -48,16 +48,21 @@ Promise.all([
         }),
     );
     const userModel = getModel(sendSqs);
+    app.use((err, req, res, next) => {
+        console.log(err);
+        next(err);
+    });
     app.use(
         '/graphql',
-        graphqlHTTP((err, res) => ({
-            schema: createSchema({models: {User: userModel}}),
-            formatError: err => {
-                res.status(err.status || 500);
-                return err;
-            }
-        }))
-    );
+        graphqlHTTP((req, res) => {
+            return {
+                schema: createSchema({models: {User: userModel}}),
+                formatError: err => {
+                    res.status(err.originalError.status || 500);
+                    return err;
+                }
+            };
+        }));
     app.use("/subscribe", subscribe(secrets));
     app.get("/status", (req, res) => res.send({version, ego: egoURL}));
     app.get("/push", push(userModel, sendSqs));
