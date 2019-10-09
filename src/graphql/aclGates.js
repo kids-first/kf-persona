@@ -28,17 +28,23 @@ const isPublicProfile = models => async ({ args, context }) => {
   return  Boolean(isPublic)
 };
 
+const error = (message = defaultErrorMessage, status = 403) => {
+  let err = new Error(message);
+  err.status = 403;
+  return err;
+};
+
 const defaultErrorMessage = 'Access denied';
 
 // gates
-export const idGate = ({ models, errMsg = defaultErrorMessage }) => async ({
+export const idGate = ({ models, errMsg}) => async ({
   args,
   context,
 }) => {
   const _id = args._id || args.record._id;
   const egoId = await models.User.findOne({ _id }).then(user => user.egoId);
   if (args.record && args.record.egoId !== egoId) {
-    throw new Error(errMsg);
+    throw error(errMsg);
   }
 };
 
@@ -47,7 +53,7 @@ export const selfGate = ({ models, errMsg = defaultErrorMessage }) => async ({
   context,
 }) => {
   if (!(await isSelf(models)({ args, context }))) {
-    throw new Error(errMsg);
+    throw error(errMsg);
   }
 };
 
@@ -58,7 +64,7 @@ export const adminOrAppGate = ({ errMsg = defaultErrorMessage }) => async ({
     isAdmin({ context: { jwt } }) || isApplication({ context: { jwt } });
 
   if (!passesGate) {
-    throw new Error(errMsg);
+      throw error(errMsg);
   }
 };
 
@@ -69,7 +75,7 @@ export const adminOrAppOrPublicGate = ({ models, errMsg = defaultErrorMessage })
   const passesGate = isAdmin({ context }) || isApplication({ context }) || (await isPublicProfile(models)({ args, context }));
 
   if (!passesGate) {
-    throw new Error(errMsg);
+      throw error(errMsg);
   }
 };
 
@@ -81,12 +87,12 @@ export const adminOrSelfGate = ({
     isAdmin({ context }) || (await isSelf(models)({ args, context }));
 
   if (!passesGate) {
-    throw new Error(errMsg);
+      throw error(errMsg);
   }
 };
 
 export const validTokenGate = ({ errMsg = defaultErrorMessage }) => async ({
   context,
 }) => {
-  if (!context.jwt.valid) throw new Error(errMsg);
+  if (!context.jwt.valid) throw error(errMsg);
 };
