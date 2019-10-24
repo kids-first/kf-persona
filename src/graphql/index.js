@@ -1,4 +1,4 @@
-import {GQC} from 'graphql-compose';
+import {GQC, SchemaComposer} from 'graphql-compose';
 
 import generateUserTC from './schema/User';
 import {
@@ -8,7 +8,7 @@ import {
     adminOrSelfGate,
     validTokenGate, adminOrAppOrPublicGate,
 } from './aclGates';
-
+import {composeWithMongoose} from "graphql-compose-mongoose";
 const restrict = (resolver, ...restrictions) => {
     return resolver.wrapResolve(next => async rp => {
         await Promise.all(restrictions.map(r => r(rp)));
@@ -29,6 +29,7 @@ const restrict = (resolver, ...restrictions) => {
  */
 export const createSchema = function ({models}) {
     const UserTC = generateUserTC({models});
+    const UserRestrictedTC = composeWithMongoose(models.User, {schemaComposer:new SchemaComposer(), name:'UserRestrictedModel', fields: {remove: ['email', 'egoId', 'institutionalEmail']}});
 
     const invalidTokenErrorMessage = 'You must provide valid token';
 
@@ -38,11 +39,18 @@ export const createSchema = function ({models}) {
             validTokenGate({errMsg: invalidTokenErrorMessage}),
         ),
         user: restrict(
-            UserTC.getResolver('findById'),   //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
+            UserRestrictedTC.getResolver('findById'),   //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
             adminOrAppOrPublicGate({
                 models,
                 errMsg:
                     'Access denied. This profile is not public. (You may also access this resource with Admin privileges).',
+            }),
+        ),
+        fullUser: restrict(
+            UserTC.getResolver('findById'),   //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
+            adminOrAppGate({
+                errMsg:
+                    'Access denied. You need Admin privileges to access this resource',
             }),
         ),
         users: restrict(
