@@ -15,5 +15,7 @@ yarn --ignore-optional && \
 ```
 
 ## migrations
-
-- `npm run migrate "<<migrate-mongo arguments>>"` (this wraps persona's `persona-scripts`) see https://github.com/kids-first/persona for more information
+- Library used for migration is migrate-mongo (https://www.npmjs.com/package/migrate-mongo).
+- Migration scripts are run externally.
+- Migration scripts used are located in : /kf-persona/migrations.
+- To execute the scripts : `npm run migrate "<<migrate-mongo arguments>>"`
