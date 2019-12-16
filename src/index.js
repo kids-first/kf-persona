@@ -15,7 +15,7 @@ import connect from './services/mongo';
 import graphqlHTTP from 'express-graphql';
 import {createSchema} from "./graphql";
 import {sendMessage, stubSendMessage} from "./services/sqs";
-import AWS from 'aws-sdk'
+import AWS from 'aws-sdk';
 
 const app = express();
 const http = Server(app);
@@ -59,8 +59,9 @@ Promise.all([
             return {
                 schema: createSchema({models: {User: userModel}}),
                 formatError: err => {
-                    res.status(err.originalError.status || 500);
-                    return err;
+                    console.error(err);
+                    res.status(500);
+                    return { message: 'Internal server error', statusCode: 500 };
                 }
             };
         }));

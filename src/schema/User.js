@@ -1,8 +1,8 @@
 import {every, has, some} from "lodash";
+import md5 from "crypto-js/md5";
 import mongoose from 'mongoose';
 
-
-export const getModel =  (postSave) => {
+export const getModel = (postSave) => {
     const schema = new mongoose.Schema(
         {
             egoId: {
@@ -11,6 +11,10 @@ export const getModel =  (postSave) => {
                 unique: true,
             },
             email: "String", //ego email can't be edited
+            hashedEmail: {  //gravatar
+                type: "String",
+                default: "",
+            },
             institutionalEmail: "String", //can be edited
 
             acceptedTerms: "boolean",
@@ -109,6 +113,14 @@ export const getModel =  (postSave) => {
         },
         {collection: "users"}
     );
+
+    schema.pre('save', function(next) {
+        const email = this.email;
+        if (email) {
+            this.hashedEmail = md5((email).trim().toLowerCase());
+        }
+        next();
+    });
 
     schema.post('save', function (doc) {
         postSave(doc).catch(err => {
