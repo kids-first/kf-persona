@@ -1,6 +1,7 @@
 import {every, has, some} from "lodash";
 import md5 from "crypto-js/md5";
 import mongoose from 'mongoose';
+import striptags from 'striptags'
 
 export const getModel = (postSave) => {
     const schema = new mongoose.Schema(
@@ -15,7 +16,10 @@ export const getModel = (postSave) => {
                 type: "String",
                 default: "",
             },
-            institutionalEmail: "String", //can be edited
+            institutionalEmail: {
+                type: "String",
+                stripHtmlTags: true
+            }, //can be edited
 
             acceptedTerms: "boolean",
 
@@ -26,20 +30,62 @@ export const getModel = (postSave) => {
                     enum: ["research", "community", "health", "patient"]
                 }
             ],
-            title: "String",
-            firstName: "String",
-            lastName: "String",
-            jobTitle: "String",
-            institution: "String",
-            addressLine1: "String",
-            addressLine2: "String",
-            city: "String",
-            state: "String",
-            zip: "String",
-            country: "String",
-            phone: "String",
-            department: "String",
-            eraCommonsID: "String",
+            title: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            firstName: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            lastName: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            jobTitle: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            institution: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            addressLine1: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            addressLine2: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            city: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            state: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            zip: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            country: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            phone: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            department: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            eraCommonsID: {
+                type: "String",
+                stripHtmlTags: true
+            },
 
             isPublic: {         //is the profile public?
                 type: "boolean",
@@ -47,24 +93,51 @@ export const getModel = (postSave) => {
             },
 
             // a bit about yourself
-            bio: "String",
-            story: "String",
+            bio: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            story: {
+                type: "String",
+                stripHtmlTags: true
+            },
 
             // research interests
-            website: "String",
-            googleScholarId: "String",
+            website: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            googleScholarId: {
+                type: "String",
+                stripHtmlTags: true
+            },
             interests: {
                 type: ["String"],
                 set: interests =>
                     interests
-                        .map(interest => interest.toLowerCase())
-                        .filter((interest, i, arr) => arr.indexOf(interest) === i)
+                        .map(interest => striptags(interest.toLowerCase()))
+                        .filter((interest, i, arr) => interest && arr.indexOf(interest) === i)
             },
-            twitter: "String",
-            facebook: "String",
-            github: "String",
-            linkedin: "String",
-            orchid: "String",
+            twitter: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            facebook: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            github: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            linkedin: {
+                type: "String",
+                stripHtmlTags: true
+            },
+            orchid: {
+                type: "String",
+                stripHtmlTags: true
+            },
 
             //subscription opt-ins
             acceptedKfOptIn: "boolean",
@@ -73,10 +146,22 @@ export const getModel = (postSave) => {
 
             sets: [
                 {
-                    name: "String",
-                    size: "String",
-                    type: {type: "String"},
-                    setId: "String"
+                    name: {
+                        type: "String",
+                        stripHtmlTags: true
+                    },
+                    type: {
+                        type: "String",
+                        stripHtmlTags: true
+                    },
+                    size: {
+                        type: "String",
+                        stripHtmlTags: true
+                    },
+                    setId: {
+                        type: "String",
+                        stripHtmlTags: true
+                    }
                 }
             ],
 
@@ -107,14 +192,19 @@ export const getModel = (postSave) => {
                         case hasDuplicate:
                             throw new Error("Virtual studies contain duplicate IDs");
                     }
-                    return virtualStudies;
+                    return virtualStudies.map(
+                        virtualStudy => ({
+                            id: striptags(virtualStudy.id),
+                            name: striptags(virtualStudy.name)
+                        })
+                    );
                 }
             }
         },
         {collection: "users"}
     );
 
-    schema.pre('save', function(next) {
+    schema.pre('save', function (next) {
         const email = this.email;
         if (email) {
             this.hashedEmail = md5((email).trim().toLowerCase());

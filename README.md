@@ -13,9 +13,3 @@ yarn --ignore-optional && \
      yarn autoclean --force && \
      yarn cache clean && yarn start
 ```
-
-## migrations
-- Library used for migration is migrate-mongo (https://www.npmjs.com/package/migrate-mongo).
-- Migration scripts are run externally.
-- Migration scripts used are located in : /kf-persona/migrations.
-- To execute the scripts : `npm run migrate "<<migrate-mongo arguments>>"`
