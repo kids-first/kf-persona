@@ -1,4 +1,4 @@
-import {every, has, some} from "lodash";
+import {every, some} from "lodash";
 import md5 from "crypto-js/md5";
 import mongoose from 'mongoose';
 import striptags from 'striptags'
