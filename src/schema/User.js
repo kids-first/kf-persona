@@ -131,7 +131,7 @@ export const getModel = (postSave) => {
             googleScholarId: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 100
+                maxlength: 1024
             },
             // research interests
             interests: {
@@ -148,27 +148,27 @@ export const getModel = (postSave) => {
             twitter: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 100
+                maxlength: 1024
             },
             facebook: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 100
+                maxlength: 1024
             },
             github: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 100
+                maxlength: 1024
             },
             linkedin: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 100
+                maxlength: 1024
             },
             orchid: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 100
+                maxlength: 1024
             },
 
             //subscription opt-ins
