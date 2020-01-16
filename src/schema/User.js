@@ -116,12 +116,12 @@ export const getModel = (postSave) => {
             bio: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 1200
+                maxlength: 2000
             },
             story: {
                 type: "String",
                 stripHtmlTags: true,
-                maxlength: 1200
+                maxlength: 2000
             },
             website: {
                 type: "String",
