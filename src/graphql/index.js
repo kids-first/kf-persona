@@ -78,7 +78,7 @@ export const createSchema = function ({models}) {
         userUpdate: restrict(
             UserTC.getResolver('updateById'),
             validTokenGate({errMsg: invalidTokenErrorMessage}),
-            selfGate({models, errMsg: `You can't edit someone elses profile`}),
+            adminOrSelfGate({models, errMsg: `You can't edit someone elses profile`}),
             idGate({models, errMsg: "You can't change your ego id"}),
         ),
     });
