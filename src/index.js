@@ -45,15 +45,15 @@ Promise.all([
                     route: ["/push"],
                     role: ["admin"]
                 },
-                // {
-                //     type: "deny",
-                //     route: ["/userlist"]
-                // },
-                // {
-                //     type: "allow",
-                //     route: ["/userList"],
-                //     role: ["admin"]
-                // }
+                {
+                    type: "deny",
+                    route: ["/userlist"]
+                },
+                {
+                    type: "allow",
+                    route: ["/userList"],
+                    role: ["admin"]
+                }
             ]
         }),
     );
