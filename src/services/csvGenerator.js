@@ -1,6 +1,7 @@
 
+const csv = require('fast-csv');
+
 export const generateMemberList = (members, res) => {
-    const csv = require('fast-csv');
     const csvStream = csv.format({ headers: true });
 
     res.setHeader('Content-disposition', 'attachment; filename=data.csv');
