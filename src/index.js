@@ -5,7 +5,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 import egoTokenMiddleware from "kfego-token-middleware";
-import {subscribe, push} from "./endpoints";
+import {subscribe, push, userList} from "./endpoints";
 import {retrieveSecrets} from "./services/secrets";
 
 import {version} from "../package.json";
@@ -44,6 +44,15 @@ Promise.all([
                     type: "allow",
                     route: ["/push"],
                     role: ["admin"]
+                },
+                {
+                    type: "deny",
+                    route: ["/userlist"]
+                },
+                {
+                    type: "allow",
+                    route: ["/userList"],
+                    role: ["admin"]
                 }
             ]
         }),
@@ -67,6 +76,8 @@ Promise.all([
         }));
     app.use("/subscribe", subscribe(secrets));
     app.get("/push", push(userModel, sendSqs));
+
+    app.get("/userlist", userList(userModel));
 
     app.use(function (req, res, next) {
         const err = new Error('Not Found');
