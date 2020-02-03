@@ -8,7 +8,7 @@ export const generateMemberList = (members, res) => {
     res.setHeader('Content-Type', 'text/csv');
 
     csvStream.pipe(res);
-    members.map(m =>
+    members.forEach(m =>
         csvStream.write({
             id: m._doc._id,
             firstName: m._doc.firstName,
