@@ -2,4 +2,5 @@
 ecs_service_type_1_standard {
     agentLabel = "terraform-testing"
     projectName = "kf-api-persona"
+    configBranch = "feature/modify-structure"
 }
