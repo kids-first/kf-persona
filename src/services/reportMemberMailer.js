@@ -5,12 +5,12 @@ const generateEmailBodyText = details => {
   const now = new Date();
   return `
       Reported by (first name, last name): ${userReporting.firstName} ${
-    userReporting.lastName
+      userReporting.lastName
   }
       User Email: ${userReporting.email}
       
       Blamed user (first name, last name): ${userBlamed.firstName} ${
-    userBlamed.lastName
+      userBlamed.lastName
   }
       Blamed user email: ${userBlamed.email} 
       
@@ -21,7 +21,7 @@ const generateEmailBodyText = details => {
       `;
 };
 
-export const reportMemberMailer = async (emailSecret, details) => {
+export const reportMemberMailer = (emailSecret, details) => {
   //for easy testing in dev change config for one generated there : https://ethereal.email/create
   const config = {
     service: 'gmail',
@@ -37,14 +37,16 @@ export const reportMemberMailer = async (emailSecret, details) => {
     text: generateEmailBodyText(details)
   };
 
-  return await transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      throw new Error(err);
-    }
-    return {
-      sent: true,
-      info,
-      err
-    };
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        return reject(new Error(err));
+      }
+      return resolve({
+        sent: true,
+        info,
+        err: null
+      });
+    });
   });
 };
