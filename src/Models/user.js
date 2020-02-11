@@ -4,7 +4,7 @@ import { userSchema } from '../schema/User';
 import { MODEL_USER_NAME } from '../constants';
 
 export const getUserModelWithPostSave = postSave => {
-  userSchema.pre('save', function(next) {
+  userSchema.pre('save', next => {
     const email = this.email;
     if (email) {
       this.hashedEmail = md5(email.trim().toLowerCase());
@@ -12,7 +12,7 @@ export const getUserModelWithPostSave = postSave => {
     next();
   });
 
-  userSchema.post('save', function(doc) {
+  userSchema.post('save', doc => {
     postSave(doc).catch(err => {
       console.error(err);
     });
@@ -21,6 +21,4 @@ export const getUserModelWithPostSave = postSave => {
   return mongoose.model(MODEL_USER_NAME, userSchema);
 };
 
-export const getUserModel = () => {
-  return mongoose.model(MODEL_USER_NAME, userSchema);
-};
+export const getUserModel = () => mongoose.model(MODEL_USER_NAME, userSchema);

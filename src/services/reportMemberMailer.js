@@ -37,16 +37,14 @@ export const reportMemberMailer = async (emailSecret, details) => {
     text: generateEmailBodyText(details)
   };
 
-  return new Promise((resolve, reject) => {
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        return reject(new Error(err));
-      }
-      return resolve({
-        sent: true,
-        info: info,
-        err: null
-      });
-    });
+  return await transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      throw new Error(err);
+    }
+    return {
+      sent: true,
+      info,
+      err
+    };
   });
 };
