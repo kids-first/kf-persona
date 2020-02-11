@@ -1,18 +1,15 @@
-import { get } from 'lodash';
-import {mongoDb, mongoHost} from "../env";
-import {ObjectId, MongoClient} from "mongodb";
-import {throws} from "assert"; // https://stackoverflow.com/questions/4902569/node-js-mongodb-select-document-by-id-node-mongodb-native
-
-const APPROVED_STATUS = 'Approved'.toLowerCase();
+const APPROVED_STATUS = 'approved';
 
 // conditions
 const isAdmin = ({ context: { jwt } }) => {
-  const roles = get(jwt, 'context.user.roles', []);
+  const user = (jwt && jwt.context && jwt.context.user) || {};
+  const roles = user.roles || [];
   return roles.includes('ADMIN');
 };
 
 const isApplication = ({ context: { jwt } }) => {
-  const applicationStatus = get(jwt, 'context.application.status', '');
+  const application = (jwt && jwt.context && jwt.context.application) || {};
+  const applicationStatus = application.status || '';
   return applicationStatus.toLowerCase() === APPROVED_STATUS;
 };
 
