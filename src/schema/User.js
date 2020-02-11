@@ -245,12 +245,11 @@ export const userSchema = new mongoose.Schema(
         }
         return true;
       },
-      set: virtualStudies => {
-        return virtualStudies.map(virtualStudy => ({
+      set: virtualStudies =>
+        virtualStudies.map(virtualStudy => ({
           id: striptags(virtualStudy.id),
           name: striptags(virtualStudy.name)
-        }));
-      }
+        }))
     }
   },
   { collection: 'users' }

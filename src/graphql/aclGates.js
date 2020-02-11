@@ -2,14 +2,12 @@ const APPROVED_STATUS = 'approved';
 
 // conditions
 const isAdmin = ({ context: { jwt } }) => {
-  const user = (jwt && jwt.context && jwt.context.user) || {};
-  const roles = user.roles || [];
+  const roles = jwt?.context?.user?.roles || [];
   return roles.includes('ADMIN');
 };
 
 const isApplication = ({ context: { jwt } }) => {
-  const application = (jwt && jwt.context && jwt.context.application) || {};
-  const applicationStatus = application.status || '';
+  const applicationStatus = jwt?.context?.application?.status || '';
   return applicationStatus.toLowerCase() === APPROVED_STATUS;
 };
 
