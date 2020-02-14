@@ -149,8 +149,7 @@ export const userSchema = new mongoose.Schema(
             (interest, i, arr) => interest && arr.indexOf(interest) === i
           ),
       validate: {
-        validator: interests =>
-          every(interests, i => i.length <= MAX_LENGTH_INTEREST),
+        validator: interests => (interests ||  []).every(i => i.length <= MAX_LENGTH_INTEREST),
         message: 'Interests should be 60 chars max'
       }
     },
