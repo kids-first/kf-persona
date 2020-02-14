@@ -4,7 +4,7 @@ import { userSchema } from '../schema/User';
 import { MODEL_USER_NAME } from '../constants';
 
 export const getUserModelWithPostSave = postSave => {
-  userSchema.pre('save', next => {
+  userSchema.pre('save', function(next) {
     const email = this.email;
     if (email) {
       this.hashedEmail = md5(email.trim().toLowerCase());
