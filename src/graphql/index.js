@@ -2,13 +2,17 @@ import {GQC, SchemaComposer} from 'graphql-compose';
 
 import generateUserTC from './schema/User';
 import {
-    idGate,
-    selfGate,
     adminOrAppGate,
+    adminOrAppOrPublicGate,
     adminOrSelfGate,
-    validTokenGate, adminOrAppOrPublicGate,
+    idGate,
+    isActiveGate,
+    isAdminGate,
+    selfGate,
+    validTokenGate,
 } from './aclGates';
 import {composeWithMongoose} from "graphql-compose-mongoose";
+
 const restrict = (resolver, ...restrictions) => {
     return resolver.wrapResolve(next => async rp => {
         await Promise.all(restrictions.map(r => r(rp)));
@@ -80,6 +84,12 @@ export const createSchema = function ({models}) {
             validTokenGate({errMsg: invalidTokenErrorMessage}),
             selfGate({models, errMsg: `You can't edit someone elses profile`}),
             idGate({models, errMsg: "You can't change your ego id"}),
+            isActiveGate({models, errMsg: "You need to be admin to deactivate a user's account"})
+        ),
+        userUpdateAdmin: restrict(
+            UserTC.getResolver('toggleActivity'),
+            validTokenGate({errMsg: invalidTokenErrorMessage}),
+            isAdminGate({ errMsg: "Only a ADMIN user can change the activity status of a profile"}),
         ),
     });
 
