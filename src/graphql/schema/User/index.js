@@ -3,7 +3,7 @@ import { composeWithMongoose } from 'graphql-compose-mongoose';
 const self = UserModel => ({ context }) =>
   UserModel.findOne({ egoId: context.jwt.sub });
 
-const admin = UserModel => ({ args }) =>
+const toggleActivity = UserModel => ({ args }) =>
   UserModel.findByIdAndUpdate(
     { _id: args._id },
     args.isActive
@@ -30,7 +30,7 @@ export default ({ models }) => {
     },
     name: 'toggleActivity',
     type: UserTC,
-    resolve: admin(models.User)
+    resolve: toggleActivity(models.User)
   });
 
   return UserTC;
