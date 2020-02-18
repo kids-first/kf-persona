@@ -32,10 +32,7 @@ const error = (message = defaultErrorMessage, status = 403) => {
 const defaultErrorMessage = 'Access denied';
 
 // gates
-export const isAdminGate = ({ errMsg }) => async ({
-  args,
-  context
-}) => {
+export const isAdminGate = ({ errMsg }) => async ({ args, context }) => {
   if (!isAdmin({ context })) {
     throw error(errMsg);
   }
@@ -48,17 +45,20 @@ export const idGate = ({ models, errMsg }) => async ({ args, context }) => {
     throw error(errMsg);
   }
 };
-export const isActiveGate = ({ models, errMsg }) => async ({
+
+export const isActiveGate = ({ models, errMsgTglActivity, errMsgTglPrivacy }) => async ({
   args,
   context
 }) => {
   const _id = args._id || args.record._id;
   const isActive = args.isActive || args.record.isActive;
+  const isPublic = args.isPublic || args.record.isPublic;
   const currentIsActive = await models.User.findOne({ _id }).then(
     user => user.isActive
   );
-  if (!isActive && isActive !== currentIsActive) {
-    throw error(errMsg);
+  if (!isActive) {
+    if (isActive !== currentIsActive) throw error(errMsgTglActivity);
+    if(isPublic) throw error(errMsgTglPrivacy);
   }
 };
 
