@@ -74,6 +74,12 @@ Promise.all([connect(), retrieveSecrets()])
     app.use('/subscribe', subscribe(secrets));
     app.get('/push', push(userModel, sendSqs));
 
+    app.use(
+      cors({
+        exposedHeaders: ['Content-Disposition']
+      })
+    );
+
     app.get('/userlist', userList(userModel));
 
     app.post('/reportMember', reportInappropriateContent(secrets));
