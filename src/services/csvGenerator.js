@@ -1,48 +1,49 @@
-
 const csv = require('fast-csv');
 
 export const generateMemberList = (members, res) => {
-    const csvStream = csv.format({ headers: true });
+  const csvStream = csv.format({ headers: true });
 
-    res.setHeader('Content-disposition', 'attachment; filename=data.csv');
-    res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-disposition', 'attachment; filename="members.csv"');
+  res.setHeader('Content-Type', 'text/csv');
 
-    csvStream.pipe(res);
-    members.forEach(m =>
-        csvStream.write({
-            id: m._doc._id,
-            firstName: m._doc.firstName,
-            lastName: m._doc.lastName,
-            isPublic: m._doc.isPublic,
-            interests: m._doc.interests,
-            sets: m._doc.sets,
-            website: m._doc.website,
-            twitter: m._doc.twitter,
-            title: m._doc.title,
-            story: m._doc.story,
-            state: m._doc.state,
-            phone: m._doc.phone,
-            orchid: m._doc.orchid,
-            linkedin: m._doc.linkedin,
-            jobTitle: m._doc.jobTitle,
-            institutionalEmail: m._doc.institutionalEmail,
-            institution: m._doc.institution,
-            googleScholarId: m._doc.googleScholarId,
-            github: m._doc.github,
-            facebook: m._doc.facebook,
-            eraCommonsID: m._doc.eraCommonsID,
-            department: m._doc.department,
-            country: m._doc.country,
-            city: m._doc.city,
-            bio: m._doc.bio,
-            addressLine2: m._doc.addressLine2,
-            acceptedTerms: m._doc.acceptedTerms,
-            acceptedNihOptIn: m._doc.acceptedNihOptIn,
-            acceptedKfOptIn: m._doc.acceptedKfOptIn,
-            acceptedDatasetSubscriptionKfOptIn: m._doc.acceptedDatasetSubscriptionKfOptIn,
-            email: m._doc.email,
-            egoId: m._doc.egoId,
-        })
-    );
-    csvStream.end();
+  csvStream.pipe(res);
+  members.forEach(m => {
+    const doc = m._doc;
+    csvStream.write({
+      id: doc._id,
+      isPublic: doc.isPublic,
+      title: doc.title,
+      firstName: doc.firstName,
+      lastName: doc.lastName,
+      role: doc.roles[0],
+      loginEmail: doc.email,
+      institution: doc.institution,
+      department: doc.department,
+      jobTitle: doc.jobTitle,
+      addressLine1: doc.addressLine1,
+      addressLine2: doc.addressLine2,
+      city: doc.city,
+      state: doc.state,
+      country: doc.country,
+      phone: doc.phone,
+      institutionalEmail: doc.institutionalEmail,
+      eraCommonsID: doc.eraCommonsID,
+      website: doc.website,
+      twitter: doc.twitter,
+      orchid: doc.orchid,
+      linkedin: doc.linkedin,
+      googleScholarId: doc.googleScholarId,
+      github: doc.github,
+      facebook: doc.facebook,
+      acceptedTerms: doc.acceptedTerms,
+      acceptedNihOptIn: doc.acceptedNihOptIn,
+      acceptedKfOptIn: doc.acceptedKfOptIn,
+      acceptedDatasetSub: doc.acceptedDatasetSubscriptionKfOptIn,
+      interests: doc.interests,
+      egoId: doc.egoId,
+      story: doc.story,
+      bio: doc.bio
+    });
+  });
+  csvStream.end();
 };
