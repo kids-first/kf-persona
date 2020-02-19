@@ -13,12 +13,11 @@ import {
 } from './aclGates';
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 
-const restrict = (resolver, ...restrictions) => {
-  return resolver.wrapResolve(next => async rp => {
+const restrict = (resolver, ...restrictions) =>
+  resolver.wrapResolve(next => async rp => {
     await Promise.all(restrictions.map(r => r(rp)));
     return next(rp);
   });
-};
 
 /**
  * Builds the models once, but allows us to change the body of the schema when we want.
@@ -31,7 +30,7 @@ const restrict = (resolver, ...restrictions) => {
  * @param models
  * @param tags
  */
-export const createSchema = function({ models }) {
+export const createSchema = ({ models }) => {
   const UserTC = generateUserTC({ models });
   const UserRestrictedTC = composeWithMongoose(models.User, {
     schemaComposer: new SchemaComposer(),
@@ -90,16 +89,18 @@ export const createSchema = function({ models }) {
       idGate({ models, errMsg: "You can't change your ego id" }),
       isActiveGate({
         models,
-        errMsgTglActivity: "You need to be admin to deactivate a user's account",
-        errMsgTglPrivacy: "You cannot make public a inactive account. Activate it first"
+        errMsgTglActivity:
+          "You need to be admin to deactivate a user's account",
+        errMsgTglPrivacy:
+          'You cannot make public a inactive account. Activate it first'
       })
     ),
     userUpdateAdmin: restrict(
       UserTC.getResolver('toggleActivity'),
       validTokenGate({ errMsg: invalidTokenErrorMessage }),
       isAdminGate({
-        errMsg: 'Only a ADMIN user can change the activity status of a profile'
-      }),
+        errMsg: 'Only an ADMIN user can change the activity status of a profile'
+      })
     )
   });
 

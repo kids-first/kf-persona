@@ -54,10 +54,12 @@ export const isActiveGate = ({
   const _id = args._id || args.record._id;
   const isActive = args.isActive || args.record.isActive;
   const isPublic = args.isPublic || args.record.isPublic;
-  const currentIsActive = await models.User.findOne({ _id });
+  const current = await models.User.findOne({ _id });
 
-  if (isActive !== currentIsActive.isActive) throw error(errMsgTglActivity);
-  if (!isActive && isPublic) throw error(errMsgTglPrivacy);
+  const isTogglingActive = isActive && isActive !== current.isActive;
+  const isDeactivatedTryPublic = !current.isActive && isPublic;
+  if (isTogglingActive) throw error(errMsgTglActivity);
+  if (isDeactivatedTryPublic) throw error(errMsgTglPrivacy);
 };
 
 export const selfGate = ({ models, errMsg = defaultErrorMessage }) => async ({
