@@ -118,6 +118,12 @@ export const userSchema = new mongoose.Schema(
       default: false
     },
 
+    isActive: {
+      //is the profile active?
+      type: 'boolean',
+      default: true
+    },
+
     // a bit about yourself
     bio: {
       type: 'String',

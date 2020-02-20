@@ -12,6 +12,7 @@ export const generateMemberList = (members, res) => {
     csvStream.write({
       id: doc._id,
       isPublic: doc.isPublic,
+      isActive: doc.isActive,
       title: doc.title,
       firstName: doc.firstName,
       lastName: doc.lastName,
