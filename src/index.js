@@ -21,6 +21,7 @@ import graphqlHTTP from 'express-graphql';
 import { createSchema } from './graphql';
 import { sendMessage, stubSendMessage } from './services/sqs';
 import AWS from 'aws-sdk';
+import { AccessError } from './errors';
 
 const app = express();
 const http = Server(app);
@@ -64,9 +65,18 @@ Promise.all([connect(), retrieveSecrets()])
         return {
           schema: createSchema({ models: { User: userModel } }),
           formatError: err => {
-            console.error(err);
+            console.log(err);
+
+            const originalError = err.originalError; //graphql
+
+            const showDetailsToClient = originalError instanceof AccessError;
+            if (showDetailsToClient) {
+              res.status(originalError.status);
+              return res.send({ message: originalError.message });
+            }
+
             res.status(500);
-            return { message: 'Internal server error', statusCode: 500 };
+            return res.send({ message: 'Internal Error' });
           }
         };
       })
