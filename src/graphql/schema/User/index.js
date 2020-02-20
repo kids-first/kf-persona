@@ -4,13 +4,15 @@ const self = UserModel => ({ context }) =>
   UserModel.findOne({ egoId: context.jwt.sub });
 
 const toggleActivity = UserModel => ({ args }) =>
-  UserModel.findByIdAndUpdate(
-    { _id: args._id },
-    args.isActive
-      ? { isActive: args.isActive }
-      : { isActive: args.isActive, isPublic: false },
-    { new: true }
-  );
+  UserModel.findById(args._id, function(err, doc) {
+    if (doc) {
+      if (doc.isActive) {
+        doc.isPublic = false;
+      }
+      doc.isActive = !doc.isActive;
+      doc.save();
+    }
+  });
 
 export default ({ models }) => {
   const UserTC = composeWithMongoose(models.User, {});
