@@ -1,3 +1,5 @@
+import { AccessError } from "../errors";
+
 const APPROVED_STATUS = 'approved';
 
 // conditions
@@ -23,13 +25,11 @@ const isPublicProfile = models => async ({ args, context }) => {
   return Boolean(isPublic);
 };
 
-const error = (message = defaultErrorMessage, status = 403) => {
-  let err = new Error(message);
-  err.status = 403;
-  return err;
-};
-
 const defaultErrorMessage = 'Access denied';
+
+const error = (message = defaultErrorMessage) => {
+  return new AccessError(message);
+};
 
 // gates
 export const isAdminGate = ({ errMsg }) => async ({ context }) => {
