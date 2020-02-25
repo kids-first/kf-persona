@@ -32,8 +32,8 @@ export const reportMemberMailer = (emailSecret, details) => {
 
   const mailOptions = {
     from: `"Kids First Inappropriate Content Report " <${config.auth.user}>`,
-    to: details.emailTo + 'test',
-    subject: 'Kids FirstInappropriateContent Report',
+    to: details.emailTo,
+    subject: 'Kids First InappropriateContent Report',
     text: generateEmailBodyText(details)
   };
 
