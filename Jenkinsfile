@@ -3,6 +3,7 @@ ecs_service_type_1_standard {
     projectName = "kf-api-persona"
     environments = "dev,qa,prd"
     docker_image_type = "alpine"
+    internal_app = "false"
     entrypoint_command = "yarn start" 
     deploy_scripts_version = "master"
     quick_deploy = "true"
