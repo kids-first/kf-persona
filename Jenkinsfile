@@ -1,8 +1,10 @@
-@Library(value="kids-first/aws-infra-jenkins-shared-libraries", changelog=false) _
+@Library(value="kids-first/aws-infra-jenkins-shared-libraries@feature/add-tests", changelog=false) _
 ecs_service_type_1_standard {
     projectName = "kf-api-persona"
     environments = "dev,qa,prd"
     docker_image_type = "alpine"
+    deploy_scripts_version = "feature/add-tests"
+    ecs_service_type_1_version = "feature/add-tests"
     internal_app = "false"
     entrypoint_command = "yarn start" 
     deploy_scripts_version = "master"
