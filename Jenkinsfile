@@ -7,7 +7,6 @@ ecs_service_type_1_standard {
     ecs_service_type_1_version = "feature/add-tests"
     internal_app = "false"
     entrypoint_command = "yarn start" 
-    deploy_scripts_version = "master"
     quick_deploy = "true"
     external_config_repo = "false"
     container_port = "3232"
