@@ -1,234 +1,236 @@
-import mongoose from 'mongoose';
-import striptags from 'striptags';
+import mongoose from "mongoose";
+import striptags from "striptags";
 import {
   MAX_LENGTH_REGULAR_USER_FIELD,
   MAX_LENGTH_EGO_ID,
   MAX_LENGTH_BIO_STORY,
   MAX_LENGTH_URL,
-  MAX_LENGTH_INTEREST
-} from '../constants';
+  MAX_LENGTH_INTEREST,
+  ROLES,
+} from "../constants";
 
 export const userSchema = new mongoose.Schema(
   {
     egoId: {
-      type: 'String',
+      type: "String",
       required: true,
       unique: true,
-      maxlength: MAX_LENGTH_EGO_ID
+      maxlength: MAX_LENGTH_EGO_ID,
     },
     email: {
-      type: 'String',
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      type: "String",
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     }, //ego email can't be edited
     hashedEmail: {
       //gravatar
-      type: 'String',
-      default: '',
-      maxlength: 512
+      type: "String",
+      default: "",
+      maxlength: 512,
     },
     institutionalEmail: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     }, //can be edited
 
-    acceptedTerms: 'boolean',
+    acceptedTerms: "boolean",
 
     //about me fields
     roles: [
       {
         type: String,
-        enum: ['research', 'community', 'health', 'patient']
-      }
+        enum: ROLES,
+      },
     ],
     title: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     firstName: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     lastName: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     jobTitle: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     institution: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     addressLine1: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     addressLine2: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     city: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     state: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     zip: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     country: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     phone: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     department: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
     eraCommonsID: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+      maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
     },
 
     isPublic: {
       //is the profile public?
-      type: 'boolean',
-      default: false
+      type: "boolean",
+      default: false,
     },
 
     isActive: {
       //is the profile active?
-      type: 'boolean',
-      default: true
+      type: "boolean",
+      default: true,
     },
 
     // a bit about yourself
     bio: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_BIO_STORY
+      maxlength: MAX_LENGTH_BIO_STORY,
     },
     story: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_BIO_STORY
+      maxlength: MAX_LENGTH_BIO_STORY,
     },
     website: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
     googleScholarId: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
     // research interests
     interests: {
-      type: ['String'],
-      set: interests =>
+      type: ["String"],
+      set: (interests) =>
         interests
-          .map(interest => striptags(interest.toLowerCase()))
+          .map((interest) => striptags(interest.toLowerCase()))
           .filter(
             (interest, i, arr) => interest && arr.indexOf(interest) === i
           ),
       validate: {
-        validator: interests => (interests ||  []).every(i => i.length <= MAX_LENGTH_INTEREST),
-        message: 'Interests should be 60 chars max'
-      }
+        validator: (interests) =>
+          (interests || []).every((i) => i.length <= MAX_LENGTH_INTEREST),
+        message: "Interests should be 60 chars max",
+      },
     },
     twitter: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
     facebook: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
     github: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
     linkedin: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
     orchid: {
-      type: 'String',
+      type: "String",
       stripHtmlTags: true,
-      maxlength: MAX_LENGTH_URL
+      maxlength: MAX_LENGTH_URL,
     },
 
     //subscription opt-ins
-    acceptedKfOptIn: 'boolean',
-    acceptedNihOptIn: 'boolean',
-    acceptedDatasetSubscriptionKfOptIn: 'boolean',
+    acceptedKfOptIn: "boolean",
+    acceptedNihOptIn: "boolean",
+    acceptedDatasetSubscriptionKfOptIn: "boolean",
 
     sets: [
       {
         name: {
-          type: 'String',
+          type: "String",
           stripHtmlTags: true,
-          maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+          maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
         },
         type: {
-          type: 'String',
+          type: "String",
           stripHtmlTags: true,
-          maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+          maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
         },
         size: {
-          type: 'String',
+          type: "String",
           stripHtmlTags: true,
-          maxlength: MAX_LENGTH_REGULAR_USER_FIELD
+          maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
         },
         setId: {
-          type: 'String',
+          type: "String",
           stripHtmlTags: true,
-          maxlength: MAX_LENGTH_REGULAR_USER_FIELD
-        }
-      }
+          maxlength: MAX_LENGTH_REGULAR_USER_FIELD,
+        },
+      },
     ],
 
     virtualStudies: {
       type: [
         {
-          id: 'String',
-          name: 'String'
-        }
+          id: "String",
+          name: "String",
+        },
       ],
 
-      validate: virtualStudies => {
+      validate: (virtualStudies) => {
         const allHaveIds = (virtualStudies || []).every(
-          v => v.id && v.id.length && v.id.length <= 100
+          (v) => v.id && v.id.length && v.id.length <= 100
         );
         const allHaveNames = (virtualStudies || []).every(
-          v => v.name && v.name.length && v.name.length <= 512
+          (v) => v.name && v.name.length && v.name.length <= 512
         );
 
         const virtualStudiesCount = virtualStudies.reduce((acc, { id }) => {
@@ -242,20 +244,20 @@ export const userSchema = new mongoose.Schema(
 
         switch (true) {
           case !allHaveIds:
-            throw new Error('Virtual studies must have IDs');
+            throw new Error("Virtual studies must have IDs");
           case !allHaveNames:
-            throw new Error('Virtual studies must have names');
+            throw new Error("Virtual studies must have names");
           case hasDuplicate:
-            throw new Error('Virtual studies contain duplicate IDs');
+            throw new Error("Virtual studies contain duplicate IDs");
         }
         return true;
       },
-      set: virtualStudies =>
-        virtualStudies.map(virtualStudy => ({
+      set: (virtualStudies) =>
+        virtualStudies.map((virtualStudy) => ({
           id: striptags(virtualStudy.id),
-          name: striptags(virtualStudy.name)
-        }))
-    }
+          name: striptags(virtualStudy.name),
+        })),
+    },
   },
-  { collection: 'users' }
+  { collection: "users" }
 );

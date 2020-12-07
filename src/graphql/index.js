@@ -1,6 +1,6 @@
-import { GQC, SchemaComposer } from 'graphql-compose';
+import { GQC, SchemaComposer } from "graphql-compose";
 
-import generateUserTC from './schema/User';
+import generateUserTC from "./schema/User";
 import {
   adminOrAppGate,
   adminOrAppOrPublicGate,
@@ -9,13 +9,14 @@ import {
   isActiveGate,
   isAdminGate,
   selfGate,
-  validTokenGate
-} from './aclGates';
-import { composeWithMongoose } from 'graphql-compose-mongoose';
+  validTokenGate,
+  makeProfilePublicGate,
+} from "./aclGates";
+import { composeWithMongoose } from "graphql-compose-mongoose";
 
 const restrict = (resolver, ...restrictions) =>
-  resolver.wrapResolve(next => async rp => {
-    await Promise.all(restrictions.map(r => r(rp)));
+  resolver.wrapResolve((next) => async (rp) => {
+    await Promise.all(restrictions.map((r) => r(rp)));
     return next(rp);
   });
 
@@ -34,56 +35,56 @@ export const createSchema = ({ models }) => {
   const UserTC = generateUserTC({ models });
   const UserRestrictedTC = composeWithMongoose(models.User, {
     schemaComposer: new SchemaComposer(),
-    name: 'UserRestrictedModel',
-    fields: { remove: ['email', 'egoId', 'institutionalEmail'] }
+    name: "UserRestrictedModel",
+    fields: { remove: ["email", "egoId", "institutionalEmail"] },
   });
 
-  const invalidTokenErrorMessage = 'You must provide valid token';
+  const invalidTokenErrorMessage = "You must provide valid token";
 
   GQC.rootQuery().addFields({
     self: restrict(
-      UserTC.getResolver('self'),
+      UserTC.getResolver("self"),
       validTokenGate({ errMsg: invalidTokenErrorMessage })
     ),
     user: restrict(
-      UserRestrictedTC.getResolver('findById'), //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
+      UserRestrictedTC.getResolver("findById"), //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
       adminOrAppOrPublicGate({
         models,
         errMsg:
-          'Access denied. This profile is not public. (You may also access this resource with Admin privileges).'
+          "Access denied. This profile is not public. (You may also access this resource with Admin privileges).",
       })
     ),
     fullUser: restrict(
-      UserTC.getResolver('findById'), //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
+      UserTC.getResolver("findById"), //builtin api of graphql compose mongoose https://github.com/graphql-compose/graphql-compose-mongoose
       adminOrAppGate({
         errMsg:
-          'Access denied. You need Admin privileges to access this resource'
+          "Access denied. You need Admin privileges to access this resource",
       })
     ),
     users: restrict(
-      UserTC.getResolver('pagination'),
+      UserTC.getResolver("pagination"),
       adminOrAppGate({
         errMsg:
-          'Access denied. You need Admin privileges to access this resource'
+          "Access denied. You need Admin privileges to access this resource",
       })
-    )
+    ),
   });
 
   GQC.rootMutation().addFields({
     userCreate: restrict(
-      UserTC.getResolver('createOne'),
+      UserTC.getResolver("createOne"),
       validTokenGate({ errMsg: invalidTokenErrorMessage })
     ),
     userRemove: restrict(
-      UserTC.getResolver('removeById'),
+      UserTC.getResolver("removeById"),
       validTokenGate({ errMsg: invalidTokenErrorMessage }),
       adminOrSelfGate({
         models,
-        errMsg: `Access denied. You need admin access to perform this action on someone else's account`
+        errMsg: `Access denied. You need admin access to perform this action on someone else's account`,
       })
     ),
     userUpdate: restrict(
-      UserTC.getResolver('updateById'),
+      UserTC.getResolver("updateById"),
       validTokenGate({ errMsg: invalidTokenErrorMessage }),
       selfGate({ models, errMsg: `You can't edit someone elses profile` }),
       idGate({ models, errMsg: "You can't change your ego id" }),
@@ -92,16 +93,18 @@ export const createSchema = ({ models }) => {
         errMsgTglActivity:
           "You need to be admin to deactivate a user's account",
         errMsgTglPrivacy:
-          'You cannot make public a inactive account. Activate it first'
-      })
+          "You cannot make public a inactive account. Activate it first",
+      }),
+      makeProfilePublicGate({ models })
     ),
     userUpdateAdmin: restrict(
-      UserTC.getResolver('toggleActivity'),
+      UserTC.getResolver("toggleActivity"),
       validTokenGate({ errMsg: invalidTokenErrorMessage }),
       isAdminGate({
-        errMsg: 'Only an ADMIN user can change the activity status of a profile'
+        errMsg:
+          "Only an ADMIN user can change the activity status of a profile",
       })
-    )
+    ),
   });
 
   return GQC.buildSchema();
