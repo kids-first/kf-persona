@@ -9,3 +9,4 @@ export const MAX_LENGTH_URL = 1024;
 export const MAX_LENGTH_INTEREST = 60;
 export const MODEL_USER_NAME = 'UserModel';
 export const MODEL_MEMBER_REPORT_NAME = 'memberReportModel';
+export const ROLES = ['research', 'community', 'health', 'patient'];

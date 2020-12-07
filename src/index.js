@@ -59,10 +59,11 @@ Promise.all([connect(), retrieveSecrets()])
       console.log(err);
       next(err);
     });
-    app.use(
+
+      app.use(
       '/graphql',
       graphqlHTTP((req, res) => {
-        return {
+          return {
           schema: createSchema({ models: { User: userModel } }),
           formatError: err => {
             console.log(err);
