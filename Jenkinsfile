@@ -18,4 +18,5 @@ ecs_service_type_1_standard {
     dependencies = "ecr"
     additional_ssl_cert_domain_name = "*.kidsfirstdrc.org"
     friendly_dns_name = "persona"
+    create_additional_internal_alb = "1"
 }
