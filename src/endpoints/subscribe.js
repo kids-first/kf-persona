@@ -2,7 +2,10 @@ import { newMailchimpSubscription } from "../services/mailChimp";
 import { sendNihSubscriptionEmail } from "../services/nihEmail";
 
 export default ({ emailSecret, mailchimpSecret }) => async (req, res) => {
-  const { user = {} } = req.body;
+  console.warn('subscribe route deactivated. ')
+  res.end();
+  //FIXME
+/*  const { user = {} } = req.body;
   const { acceptedKfOptIn, acceptedNihOptIn, acceptedDatasetSubscriptionKfOptIn } = user;
   
   if (acceptedKfOptIn || acceptedDatasetSubscriptionKfOptIn) {
@@ -11,5 +14,5 @@ export default ({ emailSecret, mailchimpSecret }) => async (req, res) => {
   if (acceptedNihOptIn) {
     await sendNihSubscriptionEmail({ user, emailSecret });
   }
-  res.end();
+  res.end();*/
 };
