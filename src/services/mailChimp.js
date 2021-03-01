@@ -1,6 +1,4 @@
-import md5 from "crypto-js/md5";
-import fetch from "node-fetch";
-import { Utils } from "handlebars";
+import fetch from 'node-fetch';
 
 export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
   const {
@@ -9,10 +7,9 @@ export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
     kfMailchimpApiKey,
     kfDatasetSubscriptionListId
   } = mailchimpSecret;
-  const hash = md5(user.email.toLowerCase()).toString();
-  const mailChimpDataCenter = kfMailchimpApiKey.split("-")[1];
+  const mailChimpDataCenter = kfMailchimpApiKey.split('-')[1];
   const buff = new Buffer(`${kfMailchimpUserName}:${kfMailchimpApiKey}`);
-  const b64 = buff.toString("base64");
+  const b64 = buff.toString('base64');
 
   const urls = [];
 
@@ -29,13 +26,13 @@ export const newMailchimpSubscription = async ({ user, mailchimpSecret }) => {
   await Promise.all(
     urls.map(url =>
       fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Basic ${b64}`
         },
         body: JSON.stringify({
           email_address: user.email,
-          status: "subscribed",
+          status: 'subscribed',
           merge_fields: {
             FNAME: user.firstName,
             LNAME: user.lastName
