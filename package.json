@@ -35,7 +35,6 @@
     "kfego-token-middleware": "^1.1.0",
     "mongoose": "^4.13.1",
     "node-fetch": "^2.1.2",
-    "node-vault": "^0.8.0",
     "nodemailer": "^4.6.6",
     "prettier": "^1.19.1",
     "striptags": "^3.1.1",

@@ -5,12 +5,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import egoTokenMiddleware from 'kfego-token-middleware';
-import {
-  subscribe,
-  push,
-  userList,
-  reportInappropriateContent
-} from './endpoints';
+import { subscribe, push, userList } from './endpoints';
 import { retrieveSecrets } from './services/secrets';
 
 import { version } from '../package.json';
@@ -92,15 +87,14 @@ Promise.all([connect(), retrieveSecrets()])
 
     app.get('/userlist', userList(userModel));
 
-    app.post('/reportMember', reportInappropriateContent(secrets));
-
     app.use(function(req, res, next) {
       const err = new Error('Not Found');
       err.status = 404;
       next(err);
     });
     // error handler
-    app.use(function(err, req, res) {
+    app.use(function(err, req, res, next) {
+      // keep next param
       res.status(err.status || 500);
       res.send({
         message: req.app.get('env') === 'development' ? err.message : {}

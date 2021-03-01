@@ -1,12 +1,7 @@
 import nodemailer from "nodemailer";
 import {
   nihSubscriptionMailTargetAddress,
-  nihSubscriptionMailFromAddress,
-  nihSubscriptionMailUserName,
-  nihSubscriptionMailPass
 } from "../env";
-
-const googleApiRequiredScopes = ["https://www.googleapis.com/auth/gmail.send"];
 
 export const sendNihSubscriptionEmail = async ({ user, emailSecret }) =>
   new Promise((resolve, reject) => {
