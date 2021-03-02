@@ -37,7 +37,7 @@ export const generateMemberList = (members, res) => {
       github: doc.github,
       facebook: doc.facebook,
       acceptedTerms: doc.acceptedTerms,
-      acceptedNihOptIn: doc.acceptedNihOptIn,
+      acceptedNihOptIn: doc.acceptedNihOptIn,// FIXME: to be removed when possible
       acceptedKfOptIn: doc.acceptedKfOptIn,
       acceptedDatasetSub: doc.acceptedDatasetSubscriptionKfOptIn,
       interests: doc.interests,
