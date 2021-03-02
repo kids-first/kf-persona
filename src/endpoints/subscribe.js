@@ -1,14 +1,7 @@
 import { newMailchimpSubscription } from '../services/mailChimp';
 import { sendNihSubscriptionEmail } from '../services/nihEmail';
-import { nodeEnv } from '../env';
-
-const isPrd = () => nodeEnv.toLocaleLowerCase() === 'prd';
 
 export default ({ emailSecret, mailchimpSecret }) => async (req, res, next) => {
-  if (!isPrd()) {
-    return res.end();
-  }
-
   const { user = {} } = req.body;
   const {
     acceptedKfOptIn,

@@ -25,6 +25,3 @@ export const mongoUser = process.env.MONGO_USER;
 export const mongoPass = process.env.MONGO_PASS;
 
 export const sqsQueueUrl = process.env.SQS_QUEUE_URL;
-
-// dev | qa | prd
-export const nodeEnv = process.env.NODE_ENV || 'dev';
