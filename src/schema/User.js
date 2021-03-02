@@ -187,7 +187,7 @@ export const userSchema = new mongoose.Schema(
 
     //subscription opt-ins
     acceptedKfOptIn: 'boolean',
-    acceptedNihOptIn: 'boolean', // FIXME: to be removed when possible
+    acceptedNihOptIn: 'boolean',
     acceptedDatasetSubscriptionKfOptIn: 'boolean',
 
     sets: [
