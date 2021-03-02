@@ -1,7 +1,4 @@
 import {
-  // email secrets
-  nihSubscriptionMailUserName as envNihSubscriptionMailUserName,
-  nihSubscriptionMailPass as envNihSubscriptionMailPass,
   // mailchimp secrets
   kfMailchimpListId as envKfMailchimpListId,
   kfMailchimpApiKey as envKfMailchimpApiKey,
@@ -11,10 +8,6 @@ import {
 
 export const retrieveSecrets = () =>
   Promise.resolve({
-    emailSecret: {
-      user: envNihSubscriptionMailUserName,
-      pass: envNihSubscriptionMailPass
-    },
     mailchimpSecret: {
       kfMailchimpListId: envKfMailchimpListId,
       kfMailchimpApiKey: envKfMailchimpApiKey,
