@@ -9,20 +9,16 @@ import {
   kfDatasetSubscriptionListId as envkfDatasetSubscriptionListId
 } from '../env';
 
-const mailchimpSecretFallback = {
-  kfMailchimpListId: envKfMailchimpListId,
-  kfMailchimpApiKey: envKfMailchimpApiKey,
-  kfMailchimpUserName: envKfMailchimpUserName,
-  kfDatasetSubscriptionListId: envkfDatasetSubscriptionListId
-};
-
-const emailSecretFallback = {
-  user: envNihSubscriptionMailUserName,
-  pass: envNihSubscriptionMailPass
-};
-
 export const retrieveSecrets = () =>
   Promise.resolve({
-    emailSecret: emailSecretFallback,
-    mailchimpSecret: mailchimpSecretFallback
+    emailSecret: {
+      user: envNihSubscriptionMailUserName,
+      pass: envNihSubscriptionMailPass
+    },
+    mailchimpSecret: {
+      kfMailchimpListId: envKfMailchimpListId,
+      kfMailchimpApiKey: envKfMailchimpApiKey,
+      kfMailchimpUserName: envKfMailchimpUserName,
+      kfDatasetSubscriptionListId: envkfDatasetSubscriptionListId
+    }
   });
