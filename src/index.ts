@@ -25,7 +25,7 @@ const keycloakConfig = {
     'bearer-only': true,
     'auth-server-url': keycloakUrl,
     'ssl-required': 'external',
-    resource: 'kf-api-variant-cluster',
+    resource: 'kf-persona',
 };
 
 connect()
