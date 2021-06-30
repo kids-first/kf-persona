@@ -5,3 +5,4 @@ migrations/dist
 .yarnclean
 .idea
 yarn-error.log
+dist/
