@@ -6,7 +6,7 @@ import { User } from '../../../schema/userType';
 const self =
     (userModel: Model<User>) =>
     ({ context }) =>
-        userModel.findOne({ egoId: context['kauth'].grant.access_token.content.user_id });
+        userModel.findOne({ egoId: context['kauth'].grant.access_token.content.sub });
 
 const toggleActivity =
     (userModel: Model<User>) =>

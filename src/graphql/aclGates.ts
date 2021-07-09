@@ -13,7 +13,7 @@ const isSelf =
     async ({ args, context }) => {
         const _id = args._id || args.record._id;
         const egoId = await userModel.findOne({ _id }).then((user) => user.egoId);
-        return `${egoId}` === `${context['kauth'].grant.access_token.content.user_id}`;
+        return `${egoId}` === `${context['kauth'].grant.access_token.content.sub}`;
     };
 
 const isPublicProfile =
