@@ -1,6 +1,9 @@
-@Library(value="kids-first/aws-infra-jenkins-shared-libraries", changelog=false) _
+@Library(value="kids-first/aws-infra-jenkins-shared-libraries@feature/add-main-branch", changelog=false) _
 ecs_service_type_1_standard {
-    projectName = "kf-api-persona"
+    main_branch = "feature/add-blue"
+    branch = "feature/replace-variable-file-with-link"
+    projectName = "kf-api-persona-blue"
+    secrets_location = "kf-api-persona"
     environments = "dev,qa,prd"
     create_default_iam_role = "0"
     docker_image_type = "alpine"
