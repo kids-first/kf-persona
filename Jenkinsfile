@@ -5,7 +5,7 @@ ecs_service_type_1_standard {
     projectName = "kf-api-persona-blue"
     secrets_location = "kf-api-persona"
     environments = "dev,qa,prd"
-    create_default_iam_role = "0"
+    create_default_iam_role = "1"
     docker_image_type = "alpine"
     internal_app = "false"
     entrypoint_command = "yarn start" 
