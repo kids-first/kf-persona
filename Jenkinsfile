@@ -1,10 +1,10 @@
-@Library(value="kids-first/aws-infra-jenkins-shared-libraries@feature/add-main-branch", changelog=false) _
+@Library(value="kids-first/aws-infra-jenkins-shared-libraries@master", changelog=false) _
 ecs_service_type_1_standard {
     main_branch = "feature/add-blue"
-    ecs_service_type_1_version = "feature/replace-variable-file-with-link"
-    projectName = "kf-api-persona-blue"
     secrets_location = "kf-api-persona"
-    environments = "dev,qa,prd"
+    projectPrefix = "-blue"
+    projectName = "kf-api-persona"
+    environments = "qa,prd"
     create_default_iam_role = "1"
     docker_image_type = "alpine"
     internal_app = "false"
@@ -20,7 +20,4 @@ ecs_service_type_1_standard {
     health_check_path = "/status"
     dependencies = "ecr"
     additional_ssl_cert_domain_name = "*.kidsfirstdrc.org"
-    friendly_dns_name = "persona"
-    create_additional_internal_alb = "1"
-    publish_to_public_repo = "true"
 }
