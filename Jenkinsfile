@@ -1,4 +1,4 @@
-@Library(value="kids-first/aws-infra-jenkins-shared-libraries", changelog=false) _
+@Library(value="kids-first/aws-infra-jenkins-shared-libraries@feature/integrate-igor", changelog=false) _
 ecs_service_type_1_standard {
     projectName = "kf-api-persona"
     environments = "dev,qa,prd"
