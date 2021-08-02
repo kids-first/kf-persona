@@ -2,7 +2,6 @@
 ecs_service_type_1_standard {
     projectPrefix = "-blue"
     secrets_location = "kf-api-persona"
-    main_branch = "temp/test-ecs-changes"
     projectName = "kf-api-persona"
     environments = "dev,qa,prd"
     create_default_iam_role = "0"
