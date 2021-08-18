@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import buildApp from './app';
-import { port, keycloakUrl } from './env';
+import { port, keycloakUrl, keycloakRealm, keycloakClient } from './env';
 import connect from './services/mongo';
 import { mailChimpSecrets } from './services/secrets';
 
@@ -20,12 +20,12 @@ process.on('SIGINT', () => {
 });
 
 const keycloakConfig = {
-    realm: 'KidsFirst',
+    realm: keycloakRealm,
     'confidential-port': 0,
     'bearer-only': true,
     'auth-server-url': keycloakUrl,
     'ssl-required': 'external',
-    resource: 'kf-persona',
+    resource: keycloakClient,
 };
 
 connect()

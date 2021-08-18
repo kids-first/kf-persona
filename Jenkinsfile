@@ -1,6 +1,9 @@
 @Library(value="kids-first/aws-infra-jenkins-shared-libraries", changelog=false) _
 ecs_service_type_1_standard {
     projectName = "kf-api-persona"
+    projectPrefix = "-keycloak"
+    secrets_location = "kf-api-persona"
+    main_branch = "keycloak"
     environments = "dev,qa,prd"
     create_default_iam_role = "0"
     docker_image_type = "alpine"

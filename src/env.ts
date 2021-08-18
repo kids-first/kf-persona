@@ -4,7 +4,9 @@ dotenv.config();
 
 export const port = process.env.PORT || 3232;
 
-export const keycloakUrl = process.env.KEYCLOAK_URL;
+export const keycloakUrl = process.env.KEYCLOAK_URL || 'https://kf-keycloak-qa.kf-strides.org/auth';
+export const keycloakRealm = process.env.KEYCLOAK_REALM || 'KidsFirst-test-CPE';
+export const keycloakClient = process.env.KEYCLOAK_CLIENT || 'kidsfirst-apis';
 
 export const kfMailchimpListId = process.env.KF_MAILCHIMP_LIST_ID || '';
 export const kfMailchimpApiKey = process.env.KF_MAILCHIMP_API_KEY || '';
