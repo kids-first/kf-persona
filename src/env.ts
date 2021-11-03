@@ -4,15 +4,14 @@ dotenv.config();
 
 export const port = process.env.PORT || 3232;
 
-export const egoURL = process.env.EGO_API;
+export const keycloakUrl = process.env.KEYCLOAK_URL || 'https://kf-keycloak-qa.kf-strides.org/auth';
+export const keycloakRealm = process.env.KEYCLOAK_REALM || 'kidsfirstdrc';
+export const keycloakClient = process.env.KEYCLOAK_CLIENT || 'kidsfirst-apis';
 
 export const kfMailchimpListId = process.env.KF_MAILCHIMP_LIST_ID || '';
 export const kfMailchimpApiKey = process.env.KF_MAILCHIMP_API_KEY || '';
 export const kfMailchimpUserName = process.env.KF_MAILCHIMP_USERNAME || '';
-export const kfDatasetSubscriptionListId =
-  process.env.KF_DATASET_SUBSCRIPTION_LIST_ID || '';
-
-export const egoApi = process.env.EGO_API;
+export const kfDatasetSubscriptionListId = process.env.KF_DATASET_SUBSCRIPTION_LIST_ID || '';
 
 export const mongoHost = process.env.MONGO_HOST || 'localhost';
 export const mongoDb = process.env.MONGO_DB || 'test';
