@@ -1,16 +1,14 @@
-FROM mhart/alpine-node:latest AS image-build
+FROM node:16.10.0-alpine AS image-build
 
 RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
 
-RUN apk add --update --no-cache git
-
 COPY . .
 
 RUN yarn install && yarn clean && yarn build
 
-FROM mhart/alpine-node:latest AS image-run
+FROM node:16.10.0-alpine AS image-run
 WORKDIR /opt/app
 COPY --from=image-build ./opt/app/dist ./dist
 COPY package.json yarn.lock ./
