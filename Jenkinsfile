@@ -1,7 +1,7 @@
 @Library(value="kids-first/aws-infra-jenkins-shared-libraries", changelog=false) _
 ecs_service_type_1_standard {
     projectName = "kf-api-persona"
-    environments = "dev,qa,prd"
+    environments = "qa,prd"
     create_default_iam_role = "0"
     docker_image_type = "alpine"
     internal_app = "false"
