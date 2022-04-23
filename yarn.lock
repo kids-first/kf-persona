@@ -1335,21 +1335,26 @@ graceful-fs@^4.1.2, graceful-fs@^4.2.4:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
 
-graphql-compose-connection@8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/graphql-compose-connection/-/graphql-compose-connection-8.2.0.tgz#0046c4b161823b549efdd99a208d665624edb086"
-  integrity sha512-41tMBvYruKsGFiR9e3JuLLplq5EoB6Y8CbVPx2KA4rfKAG5MLnY3kl64QPZALK9yzOxPVfN3AFPK1whWgm20CQ==
+graphql-compose-connection@8.2.1:
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/graphql-compose-connection/-/graphql-compose-connection-8.2.1.tgz#ca78363f4f94a209e31d9dc8905de2e26bcb8b81"
+  integrity sha512-75QOx1HusfkLzDlF+RMGoC0UowbZ2R7/xFRIMfbQf1gc6eeRqiGmTWFxHaUYk2WjTAB4dGO7p/gllfwqO0W/TA==
 
-graphql-compose-mongoose@^9.4.1:
-  version "9.4.1"
-  resolved "https://registry.yarnpkg.com/graphql-compose-mongoose/-/graphql-compose-mongoose-9.4.1.tgz#bd2ceb303b1bf33ec14570e2f990fe3df5ea9e61"
-  integrity sha512-DbE7IFHkRimqhoXMt/p+0J9aGpHkoKsRFM4tgyh6KJzf9O4Wjj4lHps1lnmge9B7ipN8DHAIzKvtOlLmi5AR7g==
+graphql-compose-mongoose@^9.7.1:
+  version "9.7.1"
+  resolved "https://registry.yarnpkg.com/graphql-compose-mongoose/-/graphql-compose-mongoose-9.7.1.tgz#4db1b658c656568aec5cef1e61131ae272f89c3a"
+  integrity sha512-G4ZwL2aVo1f4PKQ7ra6SKDqMyY32ZtY3fKKN0ZIfmyKiZE/gknJduKdknwkiga7YUsyqlIHKYAYYr6LdRPVZUQ==
   dependencies:
     dataloader "^2.0.0"
-    graphql-compose-connection "8.2.0"
-    graphql-compose-pagination "8.2.0"
+    graphql-compose-connection "8.2.1"
+    graphql-compose-pagination "8.3.0"
 
-graphql-compose-pagination@8.2.0, graphql-compose-pagination@^8.2.0:
+graphql-compose-pagination@8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/graphql-compose-pagination/-/graphql-compose-pagination-8.3.0.tgz#a58c786256b4dba1843d495ae81cb0fc67ac1369"
+  integrity sha512-zZoBhlWD9KnAJ9AUOeFNeoE4Q/zMxZaxg0tR+HFMVNFnw7ENUnIChMWnD2uvmvik+k8Yv304hMF4n81okGVsJw==
+
+graphql-compose-pagination@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/graphql-compose-pagination/-/graphql-compose-pagination-8.2.0.tgz#8fb28b54c794a9ed541c810791323c95dddc3288"
   integrity sha512-qKJr+zeTgU1LASL3+LzKAk4Wu9PNyomPl/hxaJzLlPQSY3s9RfogYr369/OrazINCoJ9xNqORV3fRwkQWhLK3g==
