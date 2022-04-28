@@ -4,21 +4,19 @@ RUN mkdir -p /opt/app
 
 WORKDIR /opt/app
 
-RUN apk add --update --no-cache git
+RUN apk add --update --no-cache
 
 COPY . .
 
-RUN npm install && npm clean && npm build
+RUN npm install && npm run clean && npm run build
 
 FROM node:16.13-alpine AS image-run
 WORKDIR /opt/app
-COPY --from=image-build ./opt/app/dist ./dist
+COPY --from=build-image ./opt/app/dist ./dist
 COPY package* ./
 
 RUN NODE_ENV=production npm install --production --ignore-optional && \
-  npm autoclean --init && \
-  npm autoclean --force && \
-  npm cache clean
+  npm prune
 
 EXPOSE 3232
 
