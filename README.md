@@ -8,9 +8,6 @@ a kids-first instantiation of the persona microservice: https://github.com/kids-
 - Create a local `.env` file based on the provided schema in `.env.schema`
  
 ```
-npm --ignore-optional && \
-     npm build && \                                                                 
-     npm autoclean --init && \
-     npm autoclean --force && \
-     npm cache clean && npm start
+     npm run build && \                                                                 
+     npm prune && npm start
 ```
