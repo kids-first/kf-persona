@@ -5,7 +5,7 @@ ecs_service_type_1_standard {
     create_default_iam_role = "0"
     docker_image_type = "alpine"
     internal_app = "false"
-    entrypoint_command = "yarn start" 
+    entrypoint_command = "npm start"
     deploy_scripts_version = "master"
     quick_deploy = "true"
     external_config_repo = "false"
