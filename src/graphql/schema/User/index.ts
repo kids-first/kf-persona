@@ -21,7 +21,7 @@ const toggleActivity =
             }
         });
 
-export default (userModel: Model<User>): ObjectTypeComposer<User> => {
+export default (userModel: Model<User>) => {
     const UserTC = composeWithMongoose(userModel);
 
     UserTC.addResolver({

@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:latest AS image-build
+FROM node:16.13-alpine AS build-image
 
 RUN mkdir -p /opt/app
 
@@ -8,18 +8,18 @@ RUN apk add --update --no-cache git
 
 COPY . .
 
-RUN yarn install && yarn clean && yarn build
+RUN npm install && npm clean && npm build
 
-FROM mhart/alpine-node:latest AS image-run
+FROM node:16.13-alpine AS image-run
 WORKDIR /opt/app
 COPY --from=image-build ./opt/app/dist ./dist
-COPY package.json yarn.lock ./
+COPY package* ./
 
-RUN NODE_ENV=production yarn install --production --ignore-optional && \
-  yarn autoclean --init && \
-  yarn autoclean --force && \
-  yarn cache clean
+RUN NODE_ENV=production npm install --production --ignore-optional && \
+  npm autoclean --init && \
+  npm autoclean --force && \
+  npm cache clean
 
 EXPOSE 3232
 
-CMD yarn start
+CMD npm start
