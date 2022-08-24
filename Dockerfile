@@ -1,4 +1,4 @@
-FROM node:16.14.2-alpine AS build-image
+FROM node:16-alpine AS build-image
 
 RUN mkdir -p /opt/app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm install && npm run clean && npm run build
 
-FROM node:16.14.2-alpine AS image-run
+FROM node:16-alpine AS image-run
 WORKDIR /opt/app
 COPY --from=build-image ./opt/app/dist ./dist
 COPY package* ./
