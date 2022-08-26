@@ -1,3 +1,12 @@
 Dockerfile
 .git
 node_modules
+.idea
+.eslintrc
+.eslintignore
+.prettierrc
+README.md
+.env
+LICENSE.md
+.env.schema
+docs

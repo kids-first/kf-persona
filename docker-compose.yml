@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+    mongodb:
+        image: mongo:5.0.2
+        env_file: ./.env
+        environment:
+            - NODE_ENV=developement
+        ports:
+            - '27017:27017'
+        networks:
+            - persona-network
+    kf-persona:
+        working_dir: /app
+        depends_on:
+            - mongodb
+        image: node:18.8-alpine3.15
+        user: node
+        env_file: ./.env
+        # sleep fn is just a simple hack to give some time to mongo
+        command: sh -c 'sleep 5 && npm run dev'
+        environment:
+            - PORT=$PORT
+            - MONGO_HOST=$MONGO_HOST
+            - MONGO_DB=$MONGO_DB
+        ports:
+            - ${PORT}:${PORT}
+        networks:
+            - persona-network
+        volumes:
+            - ${PWD}/:/app
+networks:
+    persona-network:
+        driver: bridge
