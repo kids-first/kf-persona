@@ -1,4 +1,4 @@
-FROM node:18.8-alpine3.15 AS build-image
+FROM node:18.9.1-alpine3.15 AS build-image
 
 RUN mkdir -p /opt/app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm install && npm run clean && npm run build
 
-FROM node:18.8-alpine3.15 AS image-run
+FROM node:18.9.1-alpine3.15 AS image-run
 WORKDIR /opt/app
 COPY --from=build-image ./opt/app/dist ./dist
 COPY package* ./
