@@ -8,7 +8,9 @@ export default (mailchimpSecret: MailChimpSecrets) =>
         const { acceptedKfOptIn, acceptedDatasetSubscriptionKfOptIn } = user;
 
         try {
+            console.info("Checking if user needs newsletter subscription")
             if (acceptedKfOptIn || acceptedDatasetSubscriptionKfOptIn) {
+                console.info("Subscribing user to MailChimp newsletter")
                 await newMailchimpSubscription(user, mailchimpSecret);
             }
             res.end();
