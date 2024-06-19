@@ -15,7 +15,6 @@ export default (mailchimpSecret: MailChimpSecrets) =>
                 res.status(200).json({ message: 'No subscription needed' });
             }
         } catch (err) {
-            console.error('Subscribe route error:', err);
             next(err);
         }
     };

@@ -38,39 +38,31 @@ export const newMailchimpSubscription = async (
         });
     }
 
-    try {
-        const responses = await Promise.all(
-            subscriptions.map(async (subscription) => {
-                const response = await fetch(subscription.url, {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Basic ${b64}`,
-                        'Content-Type': 'application/json',
+    return await Promise.all(
+        subscriptions.map(async (subscription) => {
+            const response = await fetch(subscription.url, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Basic ${b64}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email_address: user.email,
+                    status: 'subscribed',
+                    merge_fields: {
+                        FNAME: user.firstName,
+                        LNAME: user.lastName,
                     },
-                    body: JSON.stringify({
-                        email_address: user.email,
-                        status: 'subscribed',
-                        merge_fields: {
-                            FNAME: user.firstName,
-                            LNAME: user.lastName,
-                        },
-                    }),
-                });
+                }),
+            });
 
-                const responseData = await response.json();
+            const responseData = await response.json();
 
-                if (!response.ok) {
-                    console.error('Error subscribing to Mailchimp:', responseData);
-                    throw new Error(responseData.detail || response.statusText);
-                }
+            if (!response.ok) {
+                throw new Error(`Failed to subscribe: ${responseData.detail || response.statusText}`);
+            }
 
-                return { subscription: subscription.type, status: 'subscribed', detail: responseData.detail };
-            }),
-        );
-
-        return responses;
-    } catch (error) {
-        console.error('An error occurred while subscribing to Mailchimp:', error);
-        throw new Error(`Subscription failed: ${error.message}`);
-    }
+            return { subscription: subscription.type, status: 'subscribed', detail: responseData.detail };
+        }),
+    );
 };
