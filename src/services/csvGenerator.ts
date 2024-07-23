@@ -16,7 +16,7 @@ export const generateMemberList = (members, res) => {
             title: doc.title,
             firstName: doc.firstName,
             lastName: doc.lastName,
-            role: doc.roles[0],
+            role: doc.roles,
             loginEmail: doc.email,
             institution: doc.institution,
             department: doc.department,
